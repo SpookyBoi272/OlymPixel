@@ -1,7 +1,6 @@
 package prod.brainiac.olympixel;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.commands.HelpCommand;
 
 public final class Olympixel extends JavaPlugin {
 
@@ -9,7 +8,7 @@ public final class Olympixel extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
 
-        getCommand("Help").setExecutor(new HelpCommand());
+        System.out.println("Olympixel Started.");
 
     }
 
