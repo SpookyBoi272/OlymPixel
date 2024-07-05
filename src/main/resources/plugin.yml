@@ -2,3 +2,5 @@ name: Olympixel
 version: '${project.version}'
 main: prod.brainiac.olympixel.Olympixel
 api-version: '1.16'
+
+commands:
