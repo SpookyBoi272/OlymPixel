@@ -4,3 +4,6 @@ main: prod.brainiac.olympixel.Olympixel
 api-version: '1.16'
 
 commands:
+  Olympixel:
+    description: "Used to run Olympixel mini game commands."
+    usage: "/olympixel <SubCommand>"

@@ -1,4 +1,4 @@
-package prod.brainiac.olympixel.commands;
+package prod.brainiac.olympixel.commands.olympixelCommand;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -7,12 +7,12 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class CommandManager implements CommandExecutor {
+public class OlympixelManager implements CommandExecutor {
 
-    private ArrayList<SubCommand> subCommands = new ArrayList<>();
+    private final ArrayList<SubCommand> subCommands = new ArrayList<>();
 
-    public CommandManager(){
-
+    public OlympixelManager(){
+        subCommands.add(new StartSubCommand());
     }
 
     @Override
@@ -24,10 +24,16 @@ public class CommandManager implements CommandExecutor {
             if (args.length > 0){
                 for (int i = 0; i < getSubcommands().size(); i++){
                     if (args[0].equalsIgnoreCase(getSubcommands().get(i).getName())){
+
+                        if (getSubcommands().get(i).requiresOP() && !sender.isOp()){
+                            sender.sendMessage("You need to be an operator to perform this command.");
+                            return true;
+                        }
+
                         getSubcommands().get(i).perform(p, args);
                     }
                 }
-            }else if(args.length == 0){
+            }else {
                 p.sendMessage("--------------------------------");
                 for (int i = 0; i < getSubcommands().size(); i++){
                     p.sendMessage(getSubcommands().get(i).getSyntax() + " - " + getSubcommands().get(i).getDescription());
@@ -36,7 +42,6 @@ public class CommandManager implements CommandExecutor {
             }
 
         }
-
 
         return true;
     }
