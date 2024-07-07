@@ -2,6 +2,7 @@ package prod.brainiac.olympixel;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import prod.brainiac.olympixel.commands.olympixelCommand.OlympixelManager;
+import prod.brainiac.olympixel.commands.olympixelCommand.OlympixelTabComp;
 import prod.brainiac.olympixel.listeners.PlayerJoinListener;
 import prod.brainiac.olympixel.utils.TeamManager;
 
@@ -13,6 +14,7 @@ public final class Olympixel extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         getCommand("olympixel").setExecutor(new OlympixelManager());
+        getCommand("olympixel").setTabCompleter(new OlympixelTabComp());
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(),plugin);
         TeamManager.init();
     }

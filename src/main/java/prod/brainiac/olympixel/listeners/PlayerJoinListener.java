@@ -1,10 +1,12 @@
 package prod.brainiac.olympixel.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import prod.brainiac.olympixel.Olympixel;
 import prod.brainiac.olympixel.utils.TeamManager;
 
 public class PlayerJoinListener implements Listener {
@@ -20,6 +22,6 @@ public class PlayerJoinListener implements Listener {
 
         // Remove the player from their team
         TeamManager.removePlayerFromTeam(player);
-        TeamManager.resortPlayers();
+        Bukkit.getScheduler().runTaskLater(Olympixel.getPlugin(), TeamManager::resortPlayers, 1L);
     }
 }

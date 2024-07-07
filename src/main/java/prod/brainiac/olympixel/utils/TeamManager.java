@@ -14,24 +14,21 @@ public class TeamManager {
     public static void init(){
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         OlympixelScoreboard = manager.getNewScoreboard();
-        createTeam(ChatColor.GREEN);
-        objective = OlympixelScoreboard.registerNewObjective("Olympixel","dummy",ChatColor.GREEN+"READY");
+        createTeam();
+        objective = OlympixelScoreboard.registerNewObjective("Olympixel","dummy",ChatColor.GREEN+"READY"+ChatColor.RESET);
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         addAllPlayers();
     }
 
-    private static void createTeam(ChatColor color) {
+    private static void createTeam() {
         team = OlympixelScoreboard.registerNewTeam(teamName);
-        team.setDisplayName(color + teamName);
-        team.setColor(color);
-        team.setPrefix(color.toString());
-        team.setSuffix(ChatColor.RESET.toString());
     }
 
     public static void addPlayerToTeam(Player player) {
         if (team != null) {
             team.addEntry(player.getName());
             player.setScoreboard(OlympixelScoreboard);
+            objective.getScore(ChatColor.RED + player.getName()).setScore(Bukkit.getOnlinePlayers().size());
         }
     }
 
@@ -44,10 +41,11 @@ public class TeamManager {
     }
 
     public static void resortPlayers(){
-        objective.unregister();
-        objective = OlympixelScoreboard.registerNewObjective("Olympixel","dummy",ChatColor.GREEN+"READY");
-        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        addAllPlayers();
+        int i = 1;
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            objective.getScore(ChatColor.RED + player.getName()).setScore(i);
+            i++;
+        }
     }
 
     private static void addAllPlayers(){
