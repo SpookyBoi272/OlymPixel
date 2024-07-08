@@ -34,11 +34,6 @@ public class StartSubCommand extends SubCommand {
     @Override
     public void perform(Player player, String[] args) {
 
-        CraftingTableTask task = new CraftingTableTask();
-
-        GameManager.map.put(player.getUniqueId(),task);
-        task.RegisterListener(Olympixel.getPlugin());
-
         new BukkitRunnable() {
 
             int remSecs = 4;

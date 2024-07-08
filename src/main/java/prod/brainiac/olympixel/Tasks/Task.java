@@ -10,6 +10,6 @@ public abstract class Task {
     public abstract String getObjective();
 
 
-    public abstract void RegisterListener(JavaPlugin plugin);
+    public abstract void registerListener(JavaPlugin plugin);
 
 }
