@@ -2,6 +2,7 @@ package prod.brainiac.olympixel.Tasks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,13 +37,12 @@ public class CryingObiTask extends Task{
 
             Player player = (Player) event.getEntity();
 
-            if (!GameManager.map.containsKey(player.getUniqueId())){
+            if (!isPlayerIG(player)){
                 return;
             }
 
-            if (GameManager.map.get(player.getUniqueId()).getTaskID() == getTaskID()){
-                player.sendMessage("You acquired Crying Obsidian");
-            }
+            player.sendMessage("You acquired Crying Obi.");
+
         }
 
         @EventHandler
@@ -52,11 +52,16 @@ public class CryingObiTask extends Task{
             Player player = (Player) event.getWhoClicked();
 
             if (clickedInventory != null && clickedInventory.getType() == InventoryType.CHEST) {
+
+                if (!isPlayerIG(player)){
+                    return;
+                }
+
                 // Check if the action involves moving items to the player's inventory
                 if (action == InventoryAction.MOVE_TO_OTHER_INVENTORY) {
                     ItemStack currentItem = event.getCurrentItem();
 
-                    if (currentItem != null) {
+                    if (currentItem != null && currentItem.getType().equals(Material.CRYING_OBSIDIAN)) {
                         String itemName = currentItem.getType().name();
                         player.sendMessage(ChatColor.GREEN + "You moved " + itemName + " to your inventory.");
                     }
@@ -67,13 +72,21 @@ public class CryingObiTask extends Task{
                     if (event.getView().getBottomInventory() == player.getInventory()) {
                         ItemStack currentItem = event.getCurrentItem();
 
-                        if (currentItem != null) {
+                        if (currentItem != null && currentItem.getType().equals(Material.CRYING_OBSIDIAN)) {
                             String itemName = currentItem.getType().name();
                             player.sendMessage(ChatColor.GREEN + "You moved " + itemName + " to your inventory.");
                         }
                     }
                 }
             }
+        }
+
+        private Boolean isPlayerIG(Player player){
+            if (!GameManager.map.containsKey(player.getUniqueId())){
+                return false;
+            }
+
+            return GameManager.map.get(player.getUniqueId()).getTaskID() == getTaskID();
         }
     }
 

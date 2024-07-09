@@ -6,7 +6,6 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import prod.brainiac.olympixel.Olympixel;
-import prod.brainiac.olympixel.Tasks.CraftingTableTask;
 import prod.brainiac.olympixel.utils.GameManager;
 
 public class StartSubCommand extends SubCommand {
@@ -42,6 +41,11 @@ public class StartSubCommand extends SubCommand {
             public void run() {
                 if (remSecs<1){
                     this.cancel();
+                }
+
+                if (remSecs==0){
+                    GameManager manager = new GameManager();
+                    manager.startGame();
                 }
 
                 for (Player player : Bukkit.getOnlinePlayers()) {

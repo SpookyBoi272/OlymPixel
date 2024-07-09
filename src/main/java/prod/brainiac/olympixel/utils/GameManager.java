@@ -23,15 +23,22 @@ public class GameManager {
     public void startGame(){
         Bukkit.broadcastMessage("Game Started");
 
+        Random random = new Random();
         for (Player player : Bukkit.getOnlinePlayers()){
-            Random random = new Random();
-            int randomTaskID = random.nextInt(3);
+            int randomTaskID = random.nextInt(tasks.size());
             Task task= tasks.get(randomTaskID);
-            task.registerListener(Olympixel.getPlugin());
             map.put(player.getUniqueId(),task);
             player.sendMessage("---------Objective---------");
             player.sendMessage(task.getObjective());
             player.sendMessage("---------------------------");
+        }
+
+        ArrayList<Integer> registeredTask = new ArrayList<>();
+        for (Task task : map.values()){
+            if (!registeredTask.contains(task.getTaskID())){
+                task.registerListener(Olympixel.getPlugin());
+                registeredTask.add(task.getTaskID());
+            }
         }
 
     }

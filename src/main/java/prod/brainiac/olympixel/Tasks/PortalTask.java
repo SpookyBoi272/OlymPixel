@@ -1,5 +1,6 @@
 package prod.brainiac.olympixel.Tasks;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,7 +28,7 @@ public class PortalTask extends Task{
                 return;
             }
 
-            if ((GameManager.map.get(player.getUniqueId())).getTaskID() == getTaskID() ){
+            if (GameManager.map.get(player.getUniqueId()).getTaskID() == getTaskID()){
                 player.sendMessage("You entered through nether portal.");
             }
         }
@@ -35,6 +36,6 @@ public class PortalTask extends Task{
 
     @Override
     public void registerListener(JavaPlugin plugin) {
-
+        Bukkit.getServer().getPluginManager().registerEvents(new listener(),plugin);
     }
 }
