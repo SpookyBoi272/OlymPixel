@@ -37,11 +37,15 @@ public class CryingObiTask extends Task{
 
             Player player = (Player) event.getEntity();
 
+
+
             if (!isPlayerIG(player)){
                 return;
             }
 
-            player.sendMessage("You acquired Crying Obi.");
+            if (event.getItem().getItemStack().getType().equals(Material.CRYING_OBSIDIAN)){
+                player.sendMessage("You acquired Crying Obsidian");
+            }
 
         }
 
