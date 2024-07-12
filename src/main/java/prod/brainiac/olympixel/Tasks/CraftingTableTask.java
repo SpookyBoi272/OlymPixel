@@ -7,9 +7,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 
 public class CraftingTableTask extends Task{
+
+    public Listener listener;
 
     @Override
     public int getTaskID() {
@@ -38,18 +41,20 @@ public class CraftingTableTask extends Task{
 
             Player player = (Player) event.getWhoClicked();
 
-            if (!GameManager.map.containsKey(player.getUniqueId())){
+            if (!GameManager.onGoingTasks.containsKey(player.getUniqueId())){
                 return;
             }
 
-            if ((GameManager.map.get(player.getUniqueId()).getTaskID() == getTaskID())  && event.getCurrentItem().getType() == Material.CRAFTING_TABLE){
+            if ((GameManager.onGoingTasks.get(player.getUniqueId()).getTaskID() == getTaskID())  && event.getCurrentItem().getType() == Material.CRAFTING_TABLE){
                 player.sendMessage("You crafted a crafting Table");
+                StartSubCommand.manager.endGame(player);
             }
         }
     }
 
     @Override
     public void registerListener(JavaPlugin plugin) {
-        Bukkit.getServer().getPluginManager().registerEvents(new listener(),plugin);
+        listener = new listener();
+        Bukkit.getServer().getPluginManager().registerEvents(listener,plugin);
     }
 }

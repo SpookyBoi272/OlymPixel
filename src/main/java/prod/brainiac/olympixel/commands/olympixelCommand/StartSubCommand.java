@@ -10,6 +10,8 @@ import prod.brainiac.olympixel.utils.GameManager;
 
 public class StartSubCommand extends SubCommand {
 
+    public static GameManager manager;
+
     @Override
     public String getName() {
         return "start";
@@ -44,7 +46,7 @@ public class StartSubCommand extends SubCommand {
                 }
 
                 if (remSecs==0){
-                    GameManager manager = new GameManager();
+                    manager = new GameManager();
                     manager.startGame();
                 }
 

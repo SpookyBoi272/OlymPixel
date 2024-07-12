@@ -14,9 +14,13 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import prod.brainiac.olympixel.Olympixel;
+import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 
 public class CryingObiTask extends Task{
+
+    public Listener listener;
+
     @Override
     public int getTaskID() {
         return 2;
@@ -45,6 +49,7 @@ public class CryingObiTask extends Task{
 
             if (event.getItem().getItemStack().getType().equals(Material.CRYING_OBSIDIAN)){
                 player.sendMessage("You acquired Crying Obsidian");
+                StartSubCommand.manager.endGame(player);
             }
 
         }
@@ -68,6 +73,7 @@ public class CryingObiTask extends Task{
                     if (currentItem != null && currentItem.getType().equals(Material.CRYING_OBSIDIAN)) {
                         String itemName = currentItem.getType().name();
                         player.sendMessage(ChatColor.GREEN + "You moved " + itemName + " to your inventory.");
+                        StartSubCommand.manager.endGame(player);
                     }
                 } else if (action == InventoryAction.PICKUP_ALL ||
                         action == InventoryAction.PICKUP_HALF ||
@@ -79,6 +85,7 @@ public class CryingObiTask extends Task{
                         if (currentItem != null && currentItem.getType().equals(Material.CRYING_OBSIDIAN)) {
                             String itemName = currentItem.getType().name();
                             player.sendMessage(ChatColor.GREEN + "You moved " + itemName + " to your inventory.");
+                            StartSubCommand.manager.endGame(player);
                         }
                     }
                 }
@@ -86,18 +93,19 @@ public class CryingObiTask extends Task{
         }
 
         private Boolean isPlayerIG(Player player){
-            if (!GameManager.map.containsKey(player.getUniqueId())){
+            if (!GameManager.onGoingTasks.containsKey(player.getUniqueId())){
                 return false;
             }
 
-            return GameManager.map.get(player.getUniqueId()).getTaskID() == getTaskID();
+            return GameManager.onGoingTasks.get(player.getUniqueId()).getTaskID() == getTaskID();
         }
     }
 
 
     @Override
     public void registerListener(JavaPlugin plugin) {
-        Bukkit.getServer().getPluginManager().registerEvents(new listener(), Olympixel.getPlugin());
+        listener = new listener();
+        Bukkit.getServer().getPluginManager().registerEvents(listener, Olympixel.getPlugin());
     }
 
 
