@@ -47,13 +47,12 @@ public class StartSubCommand extends SubCommand {
 
                 if (remSecs==0){
                     manager = new GameManager();
-                    manager.startGame();
+                    manager.startNextRound();
                 }
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
 
                     if (remSecs==0){
-//                        player.playNote(player.getLocation(), Instrument.BELL, Note.flat(1, Note.Tone.A));
                         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.GREEN+"Game Started"));
                         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL,1F,1F);
 
@@ -61,7 +60,6 @@ public class StartSubCommand extends SubCommand {
                     }else{
                         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.RED+"Game Starting in: "+remSecs));
                         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL,1F,0.1F);
-//                        player.playNote(player.getLocation(), Instrument.BELL, Note.sharp(1, Note.Tone.A));
                     }
                 }
                 remSecs--;

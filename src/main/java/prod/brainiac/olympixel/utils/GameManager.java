@@ -14,6 +14,8 @@ import java.util.*;
 public class GameManager {
     public static Map<UUID, Task> onGoingTasks = new HashMap<>();
     private final ArrayList<Task> tasks = new ArrayList<>();
+    public Map<UUID,Integer> playerScores = new HashMap<>();
+    private int currentRound = 0;
 
     public GameManager(){
         tasks.add(new CraftingTableTask());
@@ -21,18 +23,25 @@ public class GameManager {
         tasks.add(new PortalTask());
     }
 
-    public void startGame(){
-        Bukkit.broadcastMessage("Game Started");
+    public void startNextRound(){
+        currentRound ++;
+        if (currentRound == 1){
+            Bukkit.broadcastMessage("Game Started");
+            Random random = new Random();
+            for (Player player : Bukkit.getOnlinePlayers()){
+                int randomTaskID = random.nextInt(tasks.size());
+                Task task= tasks.get(randomTaskID);
+                onGoingTasks.put(player.getUniqueId(),task);
+                player.sendMessage("---------Objective---------");
+                player.sendMessage(task.getObjective());
+                player.sendMessage("---------------------------");
+            }
+        }else {
+            Bukkit.broadcastMessage("Starting Round "+currentRound);
 
-        Random random = new Random();
-        for (Player player : Bukkit.getOnlinePlayers()){
-            int randomTaskID = random.nextInt(tasks.size());
-            Task task= tasks.get(randomTaskID);
-            onGoingTasks.put(player.getUniqueId(),task);
-            player.sendMessage("---------Objective---------");
-            player.sendMessage(task.getObjective());
-            player.sendMessage("---------------------------");
         }
+
+
 
         ArrayList<Integer> registeredTask = new ArrayList<>();
         for (Task task : onGoingTasks.values()){
@@ -54,6 +63,10 @@ public class GameManager {
         }
 
         onGoingTasks.clear();
+    }
+
+    public void addScore(Player player){
+        
     }
 
 }
