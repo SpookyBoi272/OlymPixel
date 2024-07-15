@@ -49,7 +49,7 @@ public class CryingObiTask extends Task{
 
             if (event.getItem().getItemStack().getType().equals(Material.CRYING_OBSIDIAN)){
                 player.sendMessage("You acquired Crying Obsidian");
-                StartSubCommand.manager.endGame(player);
+                StartSubCommand.manager.startNextRound(player);
             }
 
         }
@@ -73,7 +73,7 @@ public class CryingObiTask extends Task{
                     if (currentItem != null && currentItem.getType().equals(Material.CRYING_OBSIDIAN)) {
                         String itemName = currentItem.getType().name();
                         player.sendMessage(ChatColor.GREEN + "You moved " + itemName + " to your inventory.");
-                        StartSubCommand.manager.endGame(player);
+                        StartSubCommand.manager.startNextRound(player);
                     }
                 } else if (action == InventoryAction.PICKUP_ALL ||
                         action == InventoryAction.PICKUP_HALF ||
@@ -85,7 +85,7 @@ public class CryingObiTask extends Task{
                         if (currentItem != null && currentItem.getType().equals(Material.CRYING_OBSIDIAN)) {
                             String itemName = currentItem.getType().name();
                             player.sendMessage(ChatColor.GREEN + "You moved " + itemName + " to your inventory.");
-                            StartSubCommand.manager.endGame(player);
+                            StartSubCommand.manager.startNextRound(player);
                         }
                     }
                 }

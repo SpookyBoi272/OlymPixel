@@ -34,7 +34,7 @@ public class PortalTask extends Task{
 
             if (GameManager.onGoingTasks.get(player.getUniqueId()).getTaskID() == getTaskID()){
                 player.sendMessage("You entered through nether portal.");
-                StartSubCommand.manager.endGame(player);
+                StartSubCommand.manager.startNextRound(player);
             }
         }
     }

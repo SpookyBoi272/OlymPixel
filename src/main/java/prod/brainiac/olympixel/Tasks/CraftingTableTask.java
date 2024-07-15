@@ -47,7 +47,7 @@ public class CraftingTableTask extends Task{
 
             if ((GameManager.onGoingTasks.get(player.getUniqueId()).getTaskID() == getTaskID())  && event.getCurrentItem().getType() == Material.CRAFTING_TABLE){
                 player.sendMessage("You crafted a crafting Table");
-                StartSubCommand.manager.endGame(player);
+                StartSubCommand.manager.startNextRound(player);
             }
         }
     }

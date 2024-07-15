@@ -47,7 +47,7 @@ public class StartSubCommand extends SubCommand {
 
                 if (remSecs==0){
                     manager = new GameManager();
-                    manager.startNextRound();
+                    manager.startGame();
                 }
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
