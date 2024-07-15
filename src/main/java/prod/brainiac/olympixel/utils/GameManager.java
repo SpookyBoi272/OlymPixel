@@ -75,8 +75,9 @@ public class GameManager {
 
         Bukkit.broadcastMessage("The Game has ended.");
         Bukkit.broadcastMessage("Winners:");
+        assert winners != null;
         for (Map.Entry<UUID, Integer> winner : winners) {
-            Bukkit.broadcastMessage(Bukkit.getPlayer(winner.getKey()).getDisplayName());
+            Bukkit.broadcastMessage(Objects.requireNonNull(Bukkit.getPlayer(winner.getKey())).getDisplayName());
         }
 
         unregisterAllTasks();
@@ -92,6 +93,7 @@ public class GameManager {
         List<Map.Entry<UUID, Integer>> winners = new ArrayList<>();
         int maxScore = Integer.MIN_VALUE;
 
+        assert playerScores != null;
         for (Map.Entry<UUID, Integer> entry : playerScores.entrySet()) {
 
             int score = entry.getValue();
