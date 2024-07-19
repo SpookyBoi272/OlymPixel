@@ -13,57 +13,51 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.Olympixel;
 import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 
-public class CryingObiTask extends Task{
+public class DyeTask extends Task {
 
     public Listener listener;
 
     @Override
     public int getTaskID() {
-        return 2;
+        return 7;
     }
 
     @Override
     public String getObjective() {
-        return "Acquire a Crying Obsidian in your inventory";
+        return "Acquire Red Dye in your inventory";
     }
 
-    public class listener implements Listener{
+    public class listener implements Listener {
         @EventHandler
-        public void onCryObiPick(EntityPickupItemEvent event){
-
-            if (!(event.getEntity() instanceof Player)){
+        public void onDyePick(EntityPickupItemEvent event) {
+            if (!(event.getEntity() instanceof Player)) {
                 return;
             }
 
             Player player = (Player) event.getEntity();
 
-
-
-            if (!GameManager.isPlayerIG(player,getTaskID())){
+            if (!GameManager.isPlayerIG(player,getTaskID())) {
                 return;
             }
 
-            if (event.getItem().getItemStack().getType().equals(Material.CRYING_OBSIDIAN)){
-                player.sendMessage("You acquired Crying Obsidian");
+            if (event.getItem().getItemStack().getType() == Material.RED_DYE) {
+                player.sendMessage("You acquired Red Dye");
                 StartSubCommand.manager.startNextRound(player);
             }
-
         }
 
         @EventHandler
-        public void onCryObiGet(InventoryClickEvent event){
+        public void onFlowerGet(InventoryClickEvent event){
             Player player = (Player) event.getWhoClicked();
             if (!GameManager.isPlayerIG(player,getTaskID())){
                 return;
             }
-
-            if (isMaterialObtained(event,Material.CRYING_OBSIDIAN)){
-                    player.sendMessage(ChatColor.GREEN + "You acquired Crying Obsidian.");
-                    StartSubCommand.manager.startNextRound(player);
+            if (isMaterialObtained(event,Material.RED_DYE)){
+                player.sendMessage(ChatColor.GREEN + "You acquired redDye.");
+                StartSubCommand.manager.startNextRound(player);
             }
         }
 
@@ -100,15 +94,11 @@ public class CryingObiTask extends Task{
             }
             return false;
         }
-
     }
-
 
     @Override
     public void registerListener(JavaPlugin plugin) {
         listener = new listener();
-        Bukkit.getServer().getPluginManager().registerEvents(listener, Olympixel.getPlugin());
+        Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);
     }
-
-
 }

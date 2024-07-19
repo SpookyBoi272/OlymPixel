@@ -4,10 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import prod.brainiac.olympixel.Olympixel;
-import prod.brainiac.olympixel.Tasks.CraftingTableTask;
-import prod.brainiac.olympixel.Tasks.CryingObiTask;
-import prod.brainiac.olympixel.Tasks.PortalTask;
-import prod.brainiac.olympixel.Tasks.Task;
+import prod.brainiac.olympixel.Tasks.*;
 
 import java.util.*;
 
@@ -20,12 +17,24 @@ public class GameManager {
     private int currentRound = 0;
 
     public GameManager() {
-        allTasks.add(new CraftingTableTask());
-        allTasks.add(new CryingObiTask());
-        allTasks.add(new PortalTask());
+        allTasks.addAll(Arrays.asList(
+//                new AchievementTask(),
+                new ArmorTask()
+//                new CraftingTableTask(),
+//                new CryingObiTask(),
+//                new DiamondPickaxeTask(),
+//                new DrinkMilkTask(),
+//                new DyeTask(),
+//                new FlowerTask(),
+//                new KillMobTask(),
+//                new PortalTask(),
+//                new PotionEffectTask(),
+//                new StandOnBlockTask()
+        ));
+
     }
 
-    public void startGame(){
+    public void startGame() {
         Bukkit.broadcastMessage("Game Started");
         currentRound++;
         Random random = new Random();
@@ -42,12 +51,13 @@ public class GameManager {
     }
 
     public void startNextRound(Player currentRoundWinner) {
+        Bukkit.broadcastMessage(currentRoundWinner.getDisplayName() + " completed their Task.");
         currentRound++;
         unregisterAllTasks();
         if (currentRound > 3) {
             endGame();
         } else {
-            addScore(currentRoundWinner,1);
+            addScore(currentRoundWinner, 1);
             Bukkit.broadcastMessage("Starting Round " + currentRound);
             Random random = new Random();
             onGoingTasks.keySet().forEach(uuid -> {
@@ -63,8 +73,6 @@ public class GameManager {
             });
             registerTasks();
         }
-
-
 
 
     }
@@ -114,19 +122,27 @@ public class GameManager {
         playerScores.put(player.getUniqueId(), newScore);
     }
 
-    private void registerTasks(){
+    private void registerTasks() {
         for (Task task : onGoingTasks.values()) {
             if (!registeredTasks.contains(task.getTaskID())) {
-                System.out.println("Task registered");
                 task.registerListener(Olympixel.getPlugin());
                 registeredTasks.add(task.getTaskID());
             }
         }
     }
 
-    private void unregisterAllTasks(){
+    private void unregisterAllTasks() {
         for (Task task : onGoingTasks.values()) {
             HandlerList.unregisterAll(task.listener);
         }
+    }
+
+    public static Boolean isPlayerIG(Player player, int taskID) {
+        if (!onGoingTasks.containsKey(player.getUniqueId())) {
+            return false;
+        }
+
+        return onGoingTasks.get(player.getUniqueId()).getTaskID() == taskID;
+
     }
 }
