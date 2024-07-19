@@ -19,13 +19,13 @@ public class GameManager {
     public GameManager() {
         allTasks.addAll(Arrays.asList(
 //                new AchievementTask(),
-                new ArmorTask()
+                new ArmorTask(),
 //                new CraftingTableTask(),
 //                new CryingObiTask(),
 //                new DiamondPickaxeTask(),
 //                new DrinkMilkTask(),
 //                new DyeTask(),
-//                new FlowerTask(),
+                new FlowerTask()
 //                new KillMobTask(),
 //                new PortalTask(),
 //                new PotionEffectTask(),

@@ -3,6 +3,8 @@ package prod.brainiac.olympixel;
 import org.bukkit.plugin.java.JavaPlugin;
 import prod.brainiac.olympixel.commands.olympixelCommand.OlympixelManager;
 import prod.brainiac.olympixel.commands.olympixelCommand.OlympixelTabComp;
+import prod.brainiac.olympixel.events.ArmorListener;
+import prod.brainiac.olympixel.events.DispenserArmorListener;
 import prod.brainiac.olympixel.listeners.PlayerJoinListener;
 import prod.brainiac.olympixel.utils.TeamManager;
 
@@ -16,6 +18,8 @@ public final class Olympixel extends JavaPlugin {
         getCommand("olympixel").setExecutor(new OlympixelManager());
         getCommand("olympixel").setTabCompleter(new OlympixelTabComp());
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(),plugin);
+        getServer().getPluginManager().registerEvents(new DispenserArmorListener(), this);
+        getServer().getPluginManager().registerEvents(new ArmorListener(),this);
         TeamManager.init();
     }
 
