@@ -49,4 +49,9 @@ public class StandOnBlockTask extends Task {
         listener = new GameListener();
         Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);
     }
+
+    @Override
+    public Listener getListener() {
+        return listener;
+    }
 }

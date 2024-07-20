@@ -17,7 +17,7 @@ import prod.brainiac.olympixel.utils.GameManager;
 
 public class DiamondPickaxeTask extends Task {
 
-    public Listener listener;
+    public DiamondPickListener listener;
 
     @Override
     public int getTaskID() {
@@ -34,7 +34,7 @@ public class DiamondPickaxeTask extends Task {
         return "You acquired Diamond Pickaxe.";
     }
 
-    public static class listener implements Listener {
+    public static class DiamondPickListener implements Listener {
         @EventHandler
         public void onDyePick(EntityPickupItemEvent event) {
             if (!(event.getEntity() instanceof Player)) {
@@ -101,7 +101,12 @@ public class DiamondPickaxeTask extends Task {
 
     @Override
     public void registerListener(JavaPlugin plugin) {
-        listener = new listener();
+        listener = new DiamondPickListener();
         Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);
+    }
+
+    @Override
+    public Listener getListener() {
+        return listener;
     }
 }

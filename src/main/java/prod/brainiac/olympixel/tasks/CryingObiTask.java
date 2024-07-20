@@ -18,7 +18,7 @@ import prod.brainiac.olympixel.utils.GameManager;
 
 public class CryingObiTask extends Task{
 
-    public Listener listener;
+    public ObiListener listener;
 
     @Override
     public int getTaskID() {
@@ -35,7 +35,7 @@ public class CryingObiTask extends Task{
         return "You obtained Crying Obsidian.";
     }
 
-    public static class listener implements Listener{
+    public static class ObiListener implements Listener{
         @EventHandler
         public void onCryObiPick(EntityPickupItemEvent event){
 
@@ -108,8 +108,13 @@ public class CryingObiTask extends Task{
 
     @Override
     public void registerListener(JavaPlugin plugin) {
-        listener = new listener();
+        listener = new ObiListener();
         Bukkit.getServer().getPluginManager().registerEvents(listener, Olympixel.getPlugin());
+    }
+
+    @Override
+    public Listener getListener() {
+        return listener;
     }
 
 

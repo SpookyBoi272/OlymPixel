@@ -104,4 +104,9 @@ public class FlowerTask extends Task {
         listener = new listener();
         Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);
     }
+
+    @Override
+    public Listener getListener() {
+        return listener;
+    }
 }

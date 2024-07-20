@@ -12,7 +12,7 @@ import prod.brainiac.olympixel.utils.GameManager;
 
 public class CraftingTableTask extends Task{
 
-    public Listener listener;
+    public CraftingListener listener;
 
     @Override
     public int getTaskID() {
@@ -29,7 +29,7 @@ public class CraftingTableTask extends Task{
         return "You crafted a Crafting Table.";
     }
 
-    private static class listener implements Listener{
+    public static class CraftingListener implements Listener{
         @EventHandler
         public void onCompletion(CraftItemEvent event){
             if(event.isCancelled()) {
@@ -58,7 +58,12 @@ public class CraftingTableTask extends Task{
 
     @Override
     public void registerListener(JavaPlugin plugin) {
-        listener = new listener();
+        listener = new CraftingListener();
         Bukkit.getServer().getPluginManager().registerEvents(listener,plugin);
+    }
+
+    @Override
+    public Listener getListener() {
+        return listener;
     }
 }

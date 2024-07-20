@@ -11,7 +11,7 @@ import prod.brainiac.olympixel.utils.GameManager;
 
 public class PortalTask extends Task{
 
-    public Listener listener;
+    public PortalListener listener;
 
     @Override
     public int getTaskID() {
@@ -28,7 +28,7 @@ public class PortalTask extends Task{
         return "You travelled through a portal.";
     }
 
-    public static class Gamelistener implements org.bukkit.event.Listener{
+    public static class PortalListener implements Listener{
         @EventHandler
         public void onPortalTravel(PlayerPortalEvent event){
             Player player = event.getPlayer();
@@ -43,7 +43,12 @@ public class PortalTask extends Task{
 
     @Override
     public void registerListener(JavaPlugin plugin) {
-        listener = new Gamelistener();
+        listener = new PortalListener();
         Bukkit.getServer().getPluginManager().registerEvents(listener,plugin);
+    }
+
+    @Override
+    public Listener getListener() {
+        return listener;
     }
 }

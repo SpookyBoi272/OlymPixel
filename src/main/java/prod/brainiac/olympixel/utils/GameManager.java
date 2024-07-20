@@ -19,17 +19,18 @@ public class GameManager {
 
     public GameManager() {
         availableTasks.addAll(Arrays.asList(
-//                new PotionEffectTask(),
-                new ArmorTask()
-//                new CraftingTableTask(),
-//                new CryingObiTask(),
-//                new DiamondPickaxeTask(),
-//                new DrinkMilkTask(),
-//                new DyeTask(),
-//                new FlowerTask(),
-//                new KillMobTask(),
-//                new PortalTask()
-//                new StandOnBlockTask()
+
+                new ArmorTask(),
+                new CraftingTableTask(),
+                new CryingObiTask(),
+                new DiamondPickaxeTask(),
+                new DrinkMilkTask(),
+                new DyeTask(),
+                new FlowerTask(),
+                new KillMobTask(),
+                new PortalTask(),
+                new PotionEffectTask(),
+                new StandOnBlockTask()
         ));
 
     }
@@ -110,7 +111,7 @@ public class GameManager {
     }
 
     private void unregisterTask(Task task) {
-        HandlerList.unregisterAll(task.listener);
+        HandlerList.unregisterAll(task.getListener());
     }
 
     public static Boolean isPlayerIG(Player player) {

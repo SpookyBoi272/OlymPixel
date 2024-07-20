@@ -5,8 +5,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class Task {
 
-    public Listener listener;
-
     public abstract int getTaskID();
 
     public abstract String getObjective();
@@ -15,4 +13,5 @@ public abstract class Task {
 
     public abstract void registerListener(JavaPlugin plugin);
 
+    public abstract Listener getListener();
 }

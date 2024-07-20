@@ -12,7 +12,7 @@ import prod.brainiac.olympixel.utils.GameManager;
 
 public class ArmorTask extends Task {
 
-    public Listener listener;
+    public GameListener listener;
 
     @Override
     public int getTaskID() {
@@ -49,5 +49,10 @@ public class ArmorTask extends Task {
     public void registerListener(JavaPlugin plugin) {
         listener = new GameListener();
         Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);
+    }
+
+    @Override
+    public Listener getListener() {
+        return listener;
     }
 }
