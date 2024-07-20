@@ -1,7 +1,6 @@
 package prod.brainiac.olympixel.Tasks;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -59,12 +58,12 @@ public class FlowerTask extends Task {
             if (!GameManager.isPlayerIG(player)){
                 return;
             }
-            if (isMaterialObtained(event,Material.POPPY)){
+            if (isMaterialObtained(event)){
                 StartSubCommand.manager.startNextRound(player);
             }
         }
 
-        private Boolean isMaterialObtained(InventoryClickEvent event, Material material){
+        private Boolean isMaterialObtained(InventoryClickEvent event){
             Inventory clickedInventory = event.getClickedInventory();
             if (clickedInventory == null || event.getCurrentItem()==null) {
                 return false;
@@ -72,10 +71,10 @@ public class FlowerTask extends Task {
 
             if (clickedInventory.getType() == InventoryType.PLAYER){
                 if ((event.getAction() == InventoryAction.PLACE_ALL || event.getAction() == InventoryAction.PLACE_ONE) && event.getCursor()!= null ){
-                    return event.getCursor().getType().equals(material);
+                    return event.getCursor().getType().equals(Material.POPPY);
                 }
                 ItemStack currentItem = event.getCurrentItem();
-                return currentItem.getType().equals(material);
+                return currentItem.getType().equals(Material.POPPY);
             }else if(event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY && event.getView().getBottomInventory().getType() == InventoryType.PLAYER){
                 return hasSpace(event.getView().getBottomInventory(), event.getCurrentItem());
             }
