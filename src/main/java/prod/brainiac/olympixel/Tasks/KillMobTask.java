@@ -24,21 +24,25 @@ public class KillMobTask extends Task {
         return "Kill a Zombie";
     }
 
-    public class listener implements Listener {
+    @Override
+    public String getWinMsg() {
+        return "You killed a zombie.";
+    }
+
+    public static class listener implements Listener {
         @EventHandler
         public void onMobKill(EntityDeathEvent event) {
-            if (!(event.getEntity().getKiller() instanceof Player)) {
+            if (event.getEntity().getKiller() == null) {
                 return;
             }
 
             Player player = event.getEntity().getKiller();
 
-            if (!GameManager.isPlayerIG(player,getTaskID())) {
+            if (!GameManager.isPlayerIG(player)) {
                 return;
             }
 
             if (event.getEntity().getType() == EntityType.ZOMBIE) {
-                player.sendMessage("You killed a Zombie");
                 StartSubCommand.manager.startNextRound(player);
             }
         }

@@ -23,19 +23,21 @@ public class PortalTask extends Task{
         return "Travel Through a Nether Portal";
     }
 
-    public class listener implements Listener{
+    @Override
+    public String getWinMsg() {
+        return "You travelled through a portal.";
+    }
+
+    public static class listener implements Listener{
         @EventHandler
         public void onPortalTravel(PlayerPortalEvent event){
             Player player = event.getPlayer();
 
-            if (!GameManager.isPlayerIG(player,getTaskID())){
+            if (!GameManager.isPlayerIG(player)){
                 return;
             }
 
-            if (GameManager.onGoingTasks.get(player.getUniqueId()).getTaskID() == getTaskID()){
-                player.sendMessage("You entered through nether portal.");
-                StartSubCommand.manager.startNextRound(player);
-            }
+            StartSubCommand.manager.startNextRound(player);
         }
     }
 

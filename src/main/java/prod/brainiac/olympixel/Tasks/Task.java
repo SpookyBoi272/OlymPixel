@@ -11,6 +11,7 @@ public abstract class Task {
 
     public abstract String getObjective();
 
+    public abstract String getWinMsg();
 
     public abstract void registerListener(JavaPlugin plugin);
 

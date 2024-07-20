@@ -1,7 +1,6 @@
 package prod.brainiac.olympixel.Tasks;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,7 +29,12 @@ public class DyeTask extends Task {
         return "Acquire Red Dye in your inventory";
     }
 
-    public class listener implements Listener {
+    @Override
+    public String getWinMsg() {
+        return "You acquired Red dye.";
+    }
+
+    public static class listener implements Listener {
         @EventHandler
         public void onDyePick(EntityPickupItemEvent event) {
             if (!(event.getEntity() instanceof Player)) {
@@ -39,12 +43,11 @@ public class DyeTask extends Task {
 
             Player player = (Player) event.getEntity();
 
-            if (!GameManager.isPlayerIG(player,getTaskID())) {
+            if (!GameManager.isPlayerIG(player)) {
                 return;
             }
 
             if (event.getItem().getItemStack().getType() == Material.RED_DYE) {
-                player.sendMessage("You acquired Red Dye");
                 StartSubCommand.manager.startNextRound(player);
             }
         }
@@ -52,16 +55,15 @@ public class DyeTask extends Task {
         @EventHandler
         public void onFlowerGet(InventoryClickEvent event){
             Player player = (Player) event.getWhoClicked();
-            if (!GameManager.isPlayerIG(player,getTaskID())){
+            if (!GameManager.isPlayerIG(player)){
                 return;
             }
-            if (isMaterialObtained(event,Material.RED_DYE)){
-                player.sendMessage(ChatColor.GREEN + "You acquired redDye.");
+            if (isMaterialObtained(event)){
                 StartSubCommand.manager.startNextRound(player);
             }
         }
 
-        private Boolean isMaterialObtained(InventoryClickEvent event, Material material){
+        private Boolean isMaterialObtained(InventoryClickEvent event){
             Inventory clickedInventory = event.getClickedInventory();
             if (clickedInventory == null || event.getCurrentItem()==null) {
                 return false;
@@ -69,10 +71,10 @@ public class DyeTask extends Task {
 
             if (clickedInventory.getType() == InventoryType.PLAYER){
                 if ((event.getAction() == InventoryAction.PLACE_ALL || event.getAction() == InventoryAction.PLACE_ONE) && event.getCursor()!= null ){
-                    return event.getCursor().getType().equals(material);
+                    return event.getCursor().getType().equals(Material.RED_DYE);
                 }
                 ItemStack currentItem = event.getCurrentItem();
-                return currentItem.getType().equals(material);
+                return currentItem.getType().equals(Material.RED_DYE);
             }else if(event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY && event.getView().getBottomInventory().getType() == InventoryType.PLAYER){
                 return hasSpace(event.getView().getBottomInventory(), event.getCurrentItem());
             }

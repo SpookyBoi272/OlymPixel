@@ -24,7 +24,12 @@ public class PotionEffectTask extends Task {
         return "Get Speed Potion Effect";
     }
 
-    public class listener implements Listener {
+    @Override
+    public String getWinMsg() {
+        return "You got Speed effect.";
+    }
+
+    public static class listener implements Listener {
         @EventHandler
         public void onPotionEffect(EntityPotionEffectEvent event) {
 
@@ -34,16 +39,11 @@ public class PotionEffectTask extends Task {
 
             Player player = (Player) event.getEntity();
 
-            if (!GameManager.isPlayerIG(player,getTaskID())) {
+            if (!GameManager.isPlayerIG(player)) {
                 return;
             }
 
-            Bukkit.getLogger().info("Potion effect applied to player: " + player.getName());
-            Bukkit.getLogger().info(event.getNewEffect().getType().toString());
-            Bukkit.getLogger().info(PotionEffectType.SPEED.toString());
-            if (event.getNewEffect() != null && event.getNewEffect().getType() == PotionEffectType.SPEED) {
-                Bukkit.getLogger().info("here");
-                player.sendMessage("You got Speed Potion Effect");
+            if (event.getNewEffect() != null && event.getNewEffect().getType().equals(PotionEffectType.SPEED)) {
                 StartSubCommand.manager.startNextRound(player);
             }
         }

@@ -24,16 +24,20 @@ public class ArmorTask extends Task {
         return "Wear a Diamond Chest plate";
     }
 
-    public class listener implements Listener {
+    @Override
+    public String getWinMsg() {
+        return "You equipped Diamond Chest plate.";
+    }
+
+    public static class listener implements Listener {
         @EventHandler
         public void onArmorEquip(ArmorEquipEvent event){
             Player player = event.getPlayer();
-            if (!GameManager.isPlayerIG(player,getTaskID())) {
+            if (!GameManager.isPlayerIG(player)) {
                 return;
             }
 
             if (event.getNewArmorPiece().getType() == Material.DIAMOND_CHESTPLATE){
-                player.sendMessage("You equipped a Diamond Chest plate");
                 StartSubCommand.manager.startNextRound(player);
             }
         }

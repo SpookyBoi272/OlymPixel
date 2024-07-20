@@ -24,7 +24,12 @@ public class CraftingTableTask extends Task{
         return "Craft a crafting Table";
     }
 
-    private class listener implements Listener{
+    @Override
+    public String getWinMsg() {
+        return "You crafted a Crafting Table.";
+    }
+
+    private static class listener implements Listener{
         @EventHandler
         public void onCompletion(CraftItemEvent event){
             if(event.isCancelled()) {
@@ -41,12 +46,11 @@ public class CraftingTableTask extends Task{
 
             Player player = (Player) event.getWhoClicked();
 
-            if (!GameManager.isPlayerIG(player,getTaskID())){
+            if (!GameManager.isPlayerIG(player)){
                 return;
             }
 
-            if ((GameManager.onGoingTasks.get(player.getUniqueId()).getTaskID() == getTaskID())  && event.getCurrentItem().getType() == Material.CRAFTING_TABLE){
-                player.sendMessage("You crafted a crafting Table");
+            if (event.getCurrentItem().getType() == Material.CRAFTING_TABLE){
                 StartSubCommand.manager.startNextRound(player);
             }
         }

@@ -24,17 +24,21 @@ public class DrinkMilkTask extends Task {
         return "Drink Milk";
     }
 
-    public class listener implements Listener {
+    @Override
+    public String getWinMsg() {
+        return "You drank cow milk.";
+    }
+
+    public static class listener implements Listener {
         @EventHandler
         public void onMilkDrink(PlayerItemConsumeEvent event) {
             Player player = event.getPlayer();
 
-            if (!GameManager.isPlayerIG(player,getTaskID())) {
+            if (!GameManager.isPlayerIG(player)) {
                 return;
             }
 
             if (event.getItem().getType() == Material.MILK_BUCKET) {
-                player.sendMessage("You drank Milk");
                 StartSubCommand.manager.startNextRound(player);
             }
         }

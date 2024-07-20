@@ -30,7 +30,12 @@ public class FlowerTask extends Task {
         return "Acquire a Poppy in your inventory";
     }
 
-    public class listener implements Listener {
+    @Override
+    public String getWinMsg() {
+        return "You acquired Poppy.";
+    }
+
+    public static class listener implements Listener {
         @EventHandler
         public void onFlowerPick(EntityPickupItemEvent event) {
             if (!(event.getEntity() instanceof Player)) {
@@ -39,12 +44,11 @@ public class FlowerTask extends Task {
 
             Player player = (Player) event.getEntity();
 
-            if (!GameManager.isPlayerIG(player,getTaskID())) {
+            if (!GameManager.isPlayerIG(player)) {
                 return;
             }
 
             if (event.getItem().getItemStack().getType() == Material.POPPY) {
-                player.sendMessage("You acquired a Poppy");
                 StartSubCommand.manager.startNextRound(player);
             }
         }
@@ -52,11 +56,10 @@ public class FlowerTask extends Task {
         @EventHandler
         public void onFlowerGet(InventoryClickEvent event){
             Player player = (Player) event.getWhoClicked();
-            if (!GameManager.isPlayerIG(player,getTaskID())){
+            if (!GameManager.isPlayerIG(player)){
                 return;
             }
             if (isMaterialObtained(event,Material.POPPY)){
-                player.sendMessage(ChatColor.GREEN + "You acquired poppy.");
                 StartSubCommand.manager.startNextRound(player);
             }
         }
