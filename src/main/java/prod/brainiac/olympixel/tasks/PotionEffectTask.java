@@ -1,44 +1,49 @@
-package prod.brainiac.olympixel.Tasks;
+package prod.brainiac.olympixel.tasks;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.entity.EntityPotionEffectEvent;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.plugin.java.JavaPlugin;
 import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 
-public class DrinkMilkTask extends Task {
+public class PotionEffectTask extends Task {
 
     public Listener listener;
 
     @Override
     public int getTaskID() {
-        return 10;
+        return 12;
     }
 
     @Override
     public String getObjective() {
-        return "Drink Milk";
+        return "Get Speed Potion Effect";
     }
 
     @Override
     public String getWinMsg() {
-        return "You drank cow milk.";
+        return "You got Speed effect.";
     }
 
     public static class listener implements Listener {
         @EventHandler
-        public void onMilkDrink(PlayerItemConsumeEvent event) {
-            Player player = event.getPlayer();
+        public void onPotionEffect(EntityPotionEffectEvent event) {
+
+            if (!(event.getEntity() instanceof Player)) {
+                return;
+            }
+
+            Player player = (Player) event.getEntity();
 
             if (!GameManager.isPlayerIG(player)) {
                 return;
             }
 
-            if (event.getItem().getType() == Material.MILK_BUCKET) {
+            if (event.getNewEffect() != null && event.getNewEffect().getType().equals(PotionEffectType.SPEED)) {
                 StartSubCommand.manager.startNextRound(player);
             }
         }

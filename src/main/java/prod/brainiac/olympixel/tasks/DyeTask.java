@@ -1,4 +1,4 @@
-package prod.brainiac.olympixel.Tasks;
+package prod.brainiac.olympixel.tasks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,23 +15,23 @@ import org.bukkit.plugin.java.JavaPlugin;
 import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 
-public class DiamondPickaxeTask extends Task {
+public class DyeTask extends Task {
 
     public Listener listener;
 
     @Override
     public int getTaskID() {
-        return 4;
+        return 7;
     }
 
     @Override
     public String getObjective() {
-        return "Acquire a Diamond Pickaxe in your inventory";
+        return "Acquire Red Dye in your inventory";
     }
 
     @Override
     public String getWinMsg() {
-        return "You acquired Diamond Pickaxe.";
+        return "You acquired Red dye.";
     }
 
     public static class listener implements Listener {
@@ -47,7 +47,7 @@ public class DiamondPickaxeTask extends Task {
                 return;
             }
 
-            if (event.getItem().getItemStack().getType() == Material.DIAMOND_PICKAXE) {
+            if (event.getItem().getItemStack().getType() == Material.RED_DYE) {
                 StartSubCommand.manager.startNextRound(player);
             }
         }
@@ -71,10 +71,10 @@ public class DiamondPickaxeTask extends Task {
 
             if (clickedInventory.getType() == InventoryType.PLAYER){
                 if ((event.getAction() == InventoryAction.PLACE_ALL || event.getAction() == InventoryAction.PLACE_ONE) && event.getCursor()!= null ){
-                    return event.getCursor().getType().equals(Material.DIAMOND_PICKAXE);
+                    return event.getCursor().getType().equals(Material.RED_DYE);
                 }
                 ItemStack currentItem = event.getCurrentItem();
-                return currentItem.getType().equals(Material.DIAMOND_PICKAXE);
+                return currentItem.getType().equals(Material.RED_DYE);
             }else if(event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY && event.getView().getBottomInventory().getType() == InventoryType.PLAYER){
                 return hasSpace(event.getView().getBottomInventory(), event.getCurrentItem());
             }
@@ -96,7 +96,6 @@ public class DiamondPickaxeTask extends Task {
             }
             return false;
         }
-
     }
 
     @Override

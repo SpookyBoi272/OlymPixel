@@ -1,4 +1,4 @@
-package prod.brainiac.olympixel.Tasks;
+package prod.brainiac.olympixel.tasks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

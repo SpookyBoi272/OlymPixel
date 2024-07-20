@@ -52,7 +52,8 @@ public class ChatMsgManager {
             Player winner = Bukkit.getPlayer(entry.getKey());
             int score = entry.getValue();
             if (winner != null){
-                winnersList.append(ChatColor.GOLD)
+                winnersList
+                        .append(ChatColor.GOLD)
                         .append("1.")
                         .append(winner.getDisplayName())
                         .append("   ")

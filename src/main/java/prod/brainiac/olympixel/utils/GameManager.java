@@ -5,13 +5,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import prod.brainiac.olympixel.Olympixel;
-import prod.brainiac.olympixel.Tasks.*;
+import prod.brainiac.olympixel.tasks.*;
 
 import java.util.*;
 
 public class GameManager {
     private final ArrayList<Task> availableTasks = new ArrayList<>();
-    private final ChatMsgManager chatMsgManager = new ChatMsgManager(ChatColor.DARK_PURPLE,"[Olympixel]", ChatColor.LIGHT_PURPLE );
+    private final ChatMsgManager chatMsgManager = new ChatMsgManager(ChatColor.LIGHT_PURPLE,"[Olympixel]", ChatColor.DARK_PURPLE );
 
     private Task currentTask;
     protected static final Map<UUID, Integer> playerScores = new HashMap<>();
@@ -19,23 +19,23 @@ public class GameManager {
 
     public GameManager() {
         availableTasks.addAll(Arrays.asList(
-                new PotionEffectTask(),
-                new ArmorTask(),
-                new CraftingTableTask(),
-                new CryingObiTask(),
-                new DiamondPickaxeTask(),
-                new DrinkMilkTask(),
-                new DyeTask(),
-                new FlowerTask(),
-                new KillMobTask(),
-                new PortalTask(),
-                new StandOnBlockTask()
+//                new PotionEffectTask(),
+                new ArmorTask()
+//                new CraftingTableTask(),
+//                new CryingObiTask(),
+//                new DiamondPickaxeTask(),
+//                new DrinkMilkTask(),
+//                new DyeTask(),
+//                new FlowerTask(),
+//                new KillMobTask(),
+//                new PortalTask()
+//                new StandOnBlockTask()
         ));
 
     }
 
     public void startGame() {
-
+        chatMsgManager.announceAll("Game Stared");
         currentRound++;
         Random random = new Random();
         int randomTaskID = random.nextInt(availableTasks.size());
@@ -44,12 +44,13 @@ public class GameManager {
         for (Player player : Bukkit.getOnlinePlayers()){
             playerScores.put(player.getUniqueId(), 0);
         }
+        registerTask(currentTask);
         chatMsgManager.sendObjective(currentTask.getObjective());
     }
 
     public void startNextRound(Player currentRoundWinner) {
-        chatMsgManager.msgPlayer(currentRoundWinner, currentTask.getWinMsg());
         unregisterTask(currentTask);
+        chatMsgManager.msgPlayer(currentRoundWinner, currentTask.getWinMsg());
         addScore(currentRoundWinner);
         chatMsgManager.announcePlayers(currentRoundWinner.getDisplayName() + " completed their Task.");
         currentRound++;
@@ -61,7 +62,7 @@ public class GameManager {
             Random random = new Random();
             int randomTaskID = random.nextInt(availableTasks.size());
             currentTask = availableTasks.get(randomTaskID);
-            registerCurrentTask(currentTask);
+            registerTask(currentTask);
             chatMsgManager.sendObjective(currentTask.getObjective());
         }
     }
@@ -104,7 +105,7 @@ public class GameManager {
         playerScores.put(player.getUniqueId(), newScore);
     }
 
-    private void registerCurrentTask(Task task) {
+    private void registerTask(Task task) {
         task.registerListener(Olympixel.getPlugin());
     }
 
@@ -114,6 +115,5 @@ public class GameManager {
 
     public static Boolean isPlayerIG(Player player) {
         return playerScores.containsKey(player.getUniqueId());
-
     }
 }
