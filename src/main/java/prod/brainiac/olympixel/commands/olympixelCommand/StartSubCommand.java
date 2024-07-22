@@ -6,7 +6,6 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import prod.brainiac.olympixel.Olympixel;
 import prod.brainiac.olympixel.utils.ChatMsgManager;
 import prod.brainiac.olympixel.utils.GameManager;
 

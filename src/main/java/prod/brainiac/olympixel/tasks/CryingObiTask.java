@@ -12,7 +12,6 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.Olympixel;
 import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 
