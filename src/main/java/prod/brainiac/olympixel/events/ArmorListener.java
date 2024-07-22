@@ -201,7 +201,7 @@ public class ArmorListener implements Listener{
             Player player = e.getPlayer();
             if(!e.useInteractedBlock().equals(Result.DENY)){
                 if(e.getClickedBlock() != null && e.getAction() == Action.RIGHT_CLICK_BLOCK && !player.isSneaking()){// Having both of these checks is useless, might as well do it though.
-                    // Some blocks have actions when you right click them which stops the client from equipping the armor in hand.
+                    // Some blocks have actions when you right-click them which stops the client from equipping the armor in hand.
                     Material mat = e.getClickedBlock().getType();
                     for(String s : blockedMaterials){
                         if(mat.name().equalsIgnoreCase(s)) return;
@@ -229,7 +229,7 @@ public class ArmorListener implements Listener{
         // Raw slot is the ArmorType slot
         // Can't replace armor using this method making getCursor() useless.
         ArmorType type = ArmorType.matchType(event.getOldCursor());
-        if(event.getRawSlots().isEmpty()) return;// Idk if this will ever happen
+        if(event.getRawSlots().isEmpty()) return;// IDK if this will ever happen
         if(type != null && type.getSlot() == event.getRawSlots().stream().findFirst().orElse(0)){
             ArmorEquipEvent armorEquipEvent = new ArmorEquipEvent((Player) event.getWhoClicked(), EquipMethod.DRAG, type, null, event.getOldCursor());
             Bukkit.getServer().getPluginManager().callEvent(armorEquipEvent);
@@ -238,16 +238,6 @@ public class ArmorListener implements Listener{
                 event.setCancelled(true);
             }
         }
-        // Debug shit
-		/*System.out.println("Slots: " + event.getInventorySlots().toString());
-		System.out.println("Raw Slots: " + event.getRawSlots().toString());
-		if(event.getCursor() != null){
-			System.out.println("Cursor: " + event.getCursor().getType().name());
-		}
-		if(event.getOldCursor() != null){
-			System.out.println("OldCursor: " + event.getOldCursor().getType().name());
-		}
-		System.out.println("Type: " + event.getType().name());*/
     }
 
     @EventHandler

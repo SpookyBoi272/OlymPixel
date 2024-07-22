@@ -13,7 +13,7 @@ public class OlympixelTabComp implements TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
-        stringList.add("Start");
+        stringList.add("start");
         return stringList;
     }
 }

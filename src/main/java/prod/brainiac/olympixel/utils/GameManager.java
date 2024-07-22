@@ -56,7 +56,7 @@ public class GameManager {
         chatMsgManager.announcePlayers(currentRoundWinner.getDisplayName() + " completed their Task.");
         currentRound++;
 
-        if (currentRound > 3) {
+        if (playerScores.containsValue(3)) {
             endGame();
         } else {
             chatMsgManager.announcePlayers("Starting Round " + currentRound);
