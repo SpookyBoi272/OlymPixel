@@ -4,13 +4,22 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import prod.brainiac.olympixel.Olympixel;
+import prod.brainiac.olympixel.utils.ChatMsgManager;
 import prod.brainiac.olympixel.utils.GameManager;
 
 public class StartSubCommand extends SubCommand {
 
     public static GameManager manager;
+    private final ChatMsgManager chatMsgManager;
+    private final JavaPlugin plugin;
+
+    public StartSubCommand(ChatMsgManager chatMsgManager, JavaPlugin plugin){
+        this.chatMsgManager = chatMsgManager;
+        this.plugin = plugin;
+    }
 
     @Override
     public String getName() {
@@ -35,6 +44,11 @@ public class StartSubCommand extends SubCommand {
     @Override
     public void perform(Player player, String[] args) {
 
+        if (GameManager.isGameRunning()){
+            chatMsgManager.msgPlayer(player, "Running Game has not ended yet");
+            return;
+        }
+
         new BukkitRunnable() {
 
             int remSecs = 4;
@@ -46,7 +60,7 @@ public class StartSubCommand extends SubCommand {
                 }
 
                 if (remSecs==0){
-                    manager = new GameManager();
+                    manager = new GameManager(plugin,chatMsgManager);
                     manager.startGame();
                 }
 
@@ -64,7 +78,7 @@ public class StartSubCommand extends SubCommand {
                 }
                 remSecs--;
             }
-        }.runTaskTimer(Olympixel.getPlugin(), 0L, 20L);
+        }.runTaskTimer(plugin, 0L, 20L);
 
 
     }

@@ -6,41 +6,31 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
 
 public class TeamManager {
+    ScoreboardManager manager;
     private static Scoreboard OlympixelScoreboard;
-    private static final String teamName = "Olympixel";
-    private static Team team;
-    private static Objective objective;
+    private Objective objective;
 
-    public static void init(){
+    public  void init(){
         ScoreboardManager manager = Bukkit.getScoreboardManager();
-        OlympixelScoreboard = manager.getNewScoreboard();
-        createTeam();
-        objective = OlympixelScoreboard.registerNewObjective("Olympixel","dummy",ChatColor.GREEN+"READY"+ChatColor.RESET);
-        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        addAllPlayers();
-    }
-
-    private static void createTeam() {
-        team = OlympixelScoreboard.registerNewTeam(teamName);
-    }
-
-    public static void addPlayerToTeam(Player player) {
-        if (team != null) {
-            team.addEntry(player.getName());
-            player.setScoreboard(OlympixelScoreboard);
-            objective.getScore(ChatColor.RED + player.getName()).setScore(Bukkit.getOnlinePlayers().size());
+        if (manager != null){
+            this.manager = manager;
+            OlympixelScoreboard = manager.getNewScoreboard();
+            objective = OlympixelScoreboard.registerNewObjective("Olympixel","dummy",ChatColor.GREEN+"READY"+ChatColor.RESET);
+            objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+            addAllPlayers();
         }
     }
 
-    public static void removePlayerFromTeam(Player player) {
-        if (team != null) {
-            team.removeEntry(player.getName());
-            player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
-            OlympixelScoreboard.resetScores(ChatColor.RED + player.getName());
-        }
+    public  void addPlayerToTeam(Player player) {
+        player.setScoreboard(OlympixelScoreboard);
+        objective.getScore(ChatColor.RED + player.getName()).setScore(Bukkit.getOnlinePlayers().size());
     }
 
-    public static void resortPlayers(){
+    public void removePlayerFromTeam(Player player) {
+        player.setScoreboard(manager.getMainScoreboard());
+    }
+
+    public void resortPlayers(){
         int i = 1;
         for (Player player : Bukkit.getOnlinePlayers()) {
             objective.getScore(ChatColor.RED + player.getName()).setScore(i);
@@ -48,7 +38,7 @@ public class TeamManager {
         }
     }
 
-    private static void addAllPlayers(){
+    private void addAllPlayers(){
         int i = 1;
         for (Player player : Bukkit.getOnlinePlayers()) {
             addPlayerToTeam(player);

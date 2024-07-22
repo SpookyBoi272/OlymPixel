@@ -4,6 +4,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+import prod.brainiac.olympixel.utils.ChatMsgManager;
 
 import java.util.ArrayList;
 
@@ -11,8 +13,8 @@ public class OlympixelManager implements CommandExecutor {
 
     private final ArrayList<SubCommand> subCommands = new ArrayList<>();
 
-    public OlympixelManager(){
-        subCommands.add(new StartSubCommand());
+    public OlympixelManager(ChatMsgManager chatMsgManager, JavaPlugin plugin){
+        subCommands.add(new StartSubCommand(chatMsgManager, plugin));
     }
 
     @Override

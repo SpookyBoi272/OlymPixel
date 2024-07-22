@@ -109,7 +109,7 @@ public class CryingObiTask extends Task{
     @Override
     public void registerListener(JavaPlugin plugin) {
         listener = new ObiListener();
-        Bukkit.getServer().getPluginManager().registerEvents(listener, Olympixel.getPlugin());
+        Bukkit.getServer().getPluginManager().registerEvents(listener,plugin);
     }
 
     @Override
