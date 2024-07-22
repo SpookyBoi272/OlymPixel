@@ -11,11 +11,12 @@ import java.util.*;
 
 public class GameManager {
     private final ArrayList<Task> availableTasks = new ArrayList<>();
-    private final ChatMsgManager chatMsgManager = new ChatMsgManager(ChatColor.LIGHT_PURPLE,"[Olympixel]", ChatColor.DARK_PURPLE );
+    private final ChatMsgManager chatMsgManager = new ChatMsgManager(ChatColor.DARK_PURPLE,"[Olympixel]", ChatColor.LIGHT_PURPLE );
 
     private Task currentTask;
     protected static final Map<UUID, Integer> playerScores = new HashMap<>();
     private int currentRound = 0;
+    private ScoreManager scoreManager;
 
     public GameManager() {
         availableTasks.addAll(Arrays.asList(
@@ -37,6 +38,7 @@ public class GameManager {
 
     public void startGame() {
         chatMsgManager.announceAll("Game Stared");
+        this.scoreManager =  new ScoreManager();
         currentRound++;
         Random random = new Random();
         int randomTaskID = random.nextInt(availableTasks.size());
@@ -53,6 +55,7 @@ public class GameManager {
         unregisterTask(currentTask);
         chatMsgManager.msgPlayer(currentRoundWinner, currentTask.getWinMsg());
         addScore(currentRoundWinner);
+        scoreManager.updateScores(playerScores);
         chatMsgManager.announcePlayers(currentRoundWinner.getDisplayName() + " completed their Task.");
         currentRound++;
 
@@ -69,6 +72,7 @@ public class GameManager {
     }
 
     private void endGame() {
+        scoreManager.removeAll();
         List<Map.Entry<UUID, Integer>> winners = calculateWinner();
 
         chatMsgManager.announceAll("The Game has ended.");

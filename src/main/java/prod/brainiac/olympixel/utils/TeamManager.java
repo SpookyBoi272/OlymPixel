@@ -56,4 +56,8 @@ public class TeamManager {
             i++;
         }
     }
+
+    public static Scoreboard getOlympixelScoreboard() {
+        return OlympixelScoreboard;
+    }
 }
