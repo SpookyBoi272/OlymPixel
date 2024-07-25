@@ -7,12 +7,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 
 public class PotionEffectTask extends Task {
 
     public Listener listener;
+
+    public PotionEffectTask(GameManager manager) {
+        super(manager);
+    }
 
     @Override
     public int getTaskID() {
@@ -29,7 +32,7 @@ public class PotionEffectTask extends Task {
         return "You got Speed effect.";
     }
 
-    public static class listener implements Listener {
+    public class listener implements Listener {
         @EventHandler
         public void onPotionEffect(EntityPotionEffectEvent event) {
 
@@ -44,7 +47,7 @@ public class PotionEffectTask extends Task {
             }
 
             if (event.getNewEffect() != null && event.getNewEffect().getType().equals(PotionEffectType.SPEED)) {
-                StartSubCommand.manager.startNextRound(player);
+                manager.startNextRound(player);
             }
         }
     }

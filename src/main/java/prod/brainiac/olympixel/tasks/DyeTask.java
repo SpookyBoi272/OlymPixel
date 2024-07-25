@@ -12,12 +12,15 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 
 public class DyeTask extends Task {
 
     public Listener listener;
+
+    public DyeTask(GameManager manager) {
+        super(manager);
+    }
 
     @Override
     public int getTaskID() {
@@ -34,7 +37,7 @@ public class DyeTask extends Task {
         return "You acquired Red dye.";
     }
 
-    public static class listener implements Listener {
+    public class listener implements Listener {
         @EventHandler
         public void onDyePick(EntityPickupItemEvent event) {
             if (!(event.getEntity() instanceof Player)) {
@@ -48,7 +51,7 @@ public class DyeTask extends Task {
             }
 
             if (event.getItem().getItemStack().getType() == Material.RED_DYE) {
-                StartSubCommand.manager.startNextRound(player);
+                manager.startNextRound(player);
             }
         }
 
@@ -59,7 +62,7 @@ public class DyeTask extends Task {
                 return;
             }
             if (isMaterialObtained(event)){
-                StartSubCommand.manager.startNextRound(player);
+                manager.startNextRound(player);
             }
         }
 

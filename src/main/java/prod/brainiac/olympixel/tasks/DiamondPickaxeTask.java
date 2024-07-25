@@ -12,12 +12,15 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 
 public class DiamondPickaxeTask extends Task {
 
     public DiamondPickListener listener;
+
+    public DiamondPickaxeTask(GameManager manager) {
+        super(manager);
+    }
 
     @Override
     public int getTaskID() {
@@ -34,7 +37,7 @@ public class DiamondPickaxeTask extends Task {
         return "You acquired Diamond Pickaxe.";
     }
 
-    public static class DiamondPickListener implements Listener {
+    public class DiamondPickListener implements Listener {
         @EventHandler
         public void onDyePick(EntityPickupItemEvent event) {
             if (!(event.getEntity() instanceof Player)) {
@@ -48,7 +51,7 @@ public class DiamondPickaxeTask extends Task {
             }
 
             if (event.getItem().getItemStack().getType() == Material.DIAMOND_PICKAXE) {
-                StartSubCommand.manager.startNextRound(player);
+                manager.startNextRound(player);
             }
         }
 
@@ -59,7 +62,7 @@ public class DiamondPickaxeTask extends Task {
                 return;
             }
             if (isMaterialObtained(event)){
-                StartSubCommand.manager.startNextRound(player);
+                manager.startNextRound(player);
             }
         }
 

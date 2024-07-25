@@ -6,13 +6,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.events.ArmorEquipEvent;
 import prod.brainiac.olympixel.utils.GameManager;
 
 public class ArmorTask extends Task {
 
     public GameListener listener;
+
+    public ArmorTask(GameManager manager) {
+        super(manager);
+    }
 
     @Override
     public int getTaskID() {
@@ -29,7 +32,7 @@ public class ArmorTask extends Task {
         return "You equipped Diamond Chest plate.";
     }
 
-    public static class GameListener implements Listener {
+    public class GameListener implements Listener {
         @EventHandler
         public void onArmorEquip(ArmorEquipEvent event){
             Player player = event.getPlayer();
@@ -38,7 +41,7 @@ public class ArmorTask extends Task {
             }
 
             if (event.getNewArmorPiece().getType() == Material.DIAMOND_CHESTPLATE){
-                StartSubCommand.manager.startNextRound(player);
+                manager.startNextRound(player);
             }
         }
     }

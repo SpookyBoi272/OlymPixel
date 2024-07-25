@@ -11,13 +11,17 @@ import prod.brainiac.olympixel.utils.GameManager;
 
 public class StartSubCommand extends SubCommand {
 
-    public static GameManager manager;
+    private static GameManager gameManager;
     private final ChatMsgManager chatMsgManager;
     private final JavaPlugin plugin;
 
     public StartSubCommand(ChatMsgManager chatMsgManager, JavaPlugin plugin){
         this.chatMsgManager = chatMsgManager;
         this.plugin = plugin;
+    }
+
+    public static GameManager getGameManager(){
+        return gameManager;
     }
 
     @Override
@@ -59,8 +63,8 @@ public class StartSubCommand extends SubCommand {
                 }
 
                 if (remSecs==0){
-                    manager = new GameManager(plugin,chatMsgManager);
-                    manager.startGame();
+                    gameManager = new GameManager(plugin,chatMsgManager);
+                    gameManager.startGame();
                 }
 
                 for (Player player : Bukkit.getOnlinePlayers()) {

@@ -7,12 +7,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 
 public class StandOnBlockTask extends Task {
 
     public Listener listener;
+
+    public StandOnBlockTask(GameManager manager) {
+        super(manager);
+    }
 
     @Override
     public int getTaskID() {
@@ -29,7 +32,7 @@ public class StandOnBlockTask extends Task {
         return "You stood on a Diamond Block";
     }
 
-    public static class GameListener implements Listener {
+    public class GameListener implements Listener {
         @EventHandler
         public void onPlayerMove(PlayerMoveEvent event) {
             Player player = event.getPlayer();
@@ -39,7 +42,7 @@ public class StandOnBlockTask extends Task {
             }
 
             if (player.getLocation().subtract(0,1,0).getBlock().getType() == Material.DIAMOND_BLOCK) {
-                StartSubCommand.manager.startNextRound(player);
+                manager.startNextRound(player);
             }
         }
     }

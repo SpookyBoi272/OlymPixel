@@ -12,12 +12,15 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 
 public class FlowerTask extends Task {
 
     public Listener listener;
+
+    public FlowerTask(GameManager manager) {
+        super(manager);
+    }
 
     @Override
     public int getTaskID() {
@@ -34,7 +37,7 @@ public class FlowerTask extends Task {
         return "You acquired Poppy.";
     }
 
-    public static class listener implements Listener {
+    public class listener implements Listener {
         @EventHandler
         public void onFlowerPick(EntityPickupItemEvent event) {
             if (!(event.getEntity() instanceof Player)) {
@@ -48,7 +51,7 @@ public class FlowerTask extends Task {
             }
 
             if (event.getItem().getItemStack().getType() == Material.POPPY) {
-                StartSubCommand.manager.startNextRound(player);
+                manager.startNextRound(player);
             }
         }
 
@@ -59,7 +62,7 @@ public class FlowerTask extends Task {
                 return;
             }
             if (isMaterialObtained(event)){
-                StartSubCommand.manager.startNextRound(player);
+                manager.startNextRound(player);
             }
         }
 

@@ -6,12 +6,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 
 public class PortalTask extends Task{
 
     public PortalListener listener;
+
+    public PortalTask(GameManager manager) {
+        super(manager);
+    }
 
     @Override
     public int getTaskID() {
@@ -28,7 +31,7 @@ public class PortalTask extends Task{
         return "You travelled through a portal.";
     }
 
-    public static class PortalListener implements Listener{
+    public class PortalListener implements Listener{
         @EventHandler
         public void onPortalTravel(PlayerPortalEvent event){
             Player player = event.getPlayer();
@@ -37,7 +40,7 @@ public class PortalTask extends Task{
                 return;
             }
 
-            StartSubCommand.manager.startNextRound(player);
+            manager.startNextRound(player);
         }
     }
 

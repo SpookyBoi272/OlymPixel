@@ -12,12 +12,15 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 
 public class CryingObiTask extends Task{
 
     public ObiListener listener;
+
+    public CryingObiTask(GameManager manager) {
+        super(manager);
+    }
 
     @Override
     public int getTaskID() {
@@ -34,7 +37,7 @@ public class CryingObiTask extends Task{
         return "You obtained Crying Obsidian.";
     }
 
-    public static class ObiListener implements Listener{
+    public  class ObiListener implements Listener{
         @EventHandler
         public void onCryObiPick(EntityPickupItemEvent event){
 
@@ -51,7 +54,7 @@ public class CryingObiTask extends Task{
             }
 
             if (event.getItem().getItemStack().getType().equals(Material.CRYING_OBSIDIAN)){
-                StartSubCommand.manager.startNextRound(player);
+                manager.startNextRound(player);
             }
 
         }
@@ -64,7 +67,7 @@ public class CryingObiTask extends Task{
             }
 
             if (isMaterialObtained(event)){
-                    StartSubCommand.manager.startNextRound(player);
+                    manager.startNextRound(player);
             }
         }
 

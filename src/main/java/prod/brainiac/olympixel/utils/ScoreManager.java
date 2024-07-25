@@ -38,6 +38,7 @@ public class ScoreManager {
             Player player = Bukkit.getPlayer(uuid);
             if (player != null){
                 scores.getScore(ChatColor.DARK_PURPLE+player.getDisplayName()).setScore(score);
+
             }
         });
     }

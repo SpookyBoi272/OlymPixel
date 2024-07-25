@@ -7,12 +7,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 
 public class KillMobTask extends Task {
 
     public Listener listener;
+
+    public KillMobTask(GameManager manager) {
+        super(manager);
+    }
 
     @Override
     public int getTaskID() {
@@ -29,7 +32,7 @@ public class KillMobTask extends Task {
         return "You killed a zombie.";
     }
 
-    public static class listener implements Listener {
+    public class listener implements Listener {
         @EventHandler
         public void onMobKill(EntityDeathEvent event) {
             if (event.getEntity().getKiller() == null) {
@@ -43,7 +46,7 @@ public class KillMobTask extends Task {
             }
 
             if (event.getEntity().getType() == EntityType.ZOMBIE) {
-                StartSubCommand.manager.startNextRound(player);
+                manager.startNextRound(player);
             }
         }
     }

@@ -10,7 +10,7 @@ import java.util.*;
 
 public class GameManager {
     private final JavaPlugin plugin;
-    private static Boolean gameRunning;
+    private static Boolean gameRunning = false;
     private final ArrayList<Task> availableTasks = new ArrayList<>();
     private final ChatMsgManager chatMsgManager;
 
@@ -21,21 +21,19 @@ public class GameManager {
 
     public GameManager(JavaPlugin plugin, ChatMsgManager chatMsgManager) {
         this.chatMsgManager = chatMsgManager;
-        gameRunning = true;
         this.plugin = plugin;
         availableTasks.addAll(Arrays.asList(
-
-                new ArmorTask(),
-                new CraftingTableTask(),
-                new CryingObiTask(),
-                new DiamondPickaxeTask(),
-                new DrinkMilkTask(),
-                new DyeTask(),
-                new FlowerTask(),
-                new KillMobTask(),
-                new PortalTask(),
-                new PotionEffectTask(),
-                new StandOnBlockTask()
+                new ArmorTask(this),
+                new CraftingTableTask(this),
+                new CryingObiTask(this),
+                new DiamondPickaxeTask(this),
+                new DrinkMilkTask(this),
+                new DyeTask(this),
+                new FlowerTask(this),
+                new KillMobTask(this),
+                new PortalTask(this),
+                new PotionEffectTask(this),
+                new StandOnBlockTask(this)
         ));
 
     }
@@ -131,5 +129,12 @@ public class GameManager {
 
     public static Boolean isPlayerIG(Player player) {
         return playerScores.containsKey(player.getUniqueId());
+    }
+
+    public void dcPlayer(Player player){
+        playerScores.remove(player.getUniqueId());
+        if (playerScores.isEmpty()){
+            endGame();
+        }
     }
 }

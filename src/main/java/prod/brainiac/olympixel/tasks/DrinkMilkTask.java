@@ -7,12 +7,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 
 public class DrinkMilkTask extends Task {
 
     public Listener listener;
+
+    public DrinkMilkTask(GameManager manager) {
+        super(manager);
+    }
 
     @Override
     public int getTaskID() {
@@ -29,7 +32,7 @@ public class DrinkMilkTask extends Task {
         return "You drank cow milk.";
     }
 
-    public static class listener implements Listener {
+    public class listener implements Listener {
         @EventHandler
         public void onMilkDrink(PlayerItemConsumeEvent event) {
             Player player = event.getPlayer();
@@ -39,7 +42,7 @@ public class DrinkMilkTask extends Task {
             }
 
             if (event.getItem().getType() == Material.MILK_BUCKET) {
-                StartSubCommand.manager.startNextRound(player);
+                manager.startNextRound(player);
             }
         }
     }
