@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -38,19 +37,30 @@ public class ChatMsgManager {
     }
 
     public void sendObjective(String objective){
-        for (Player player : Bukkit.getOnlinePlayers()){
-            player.sendMessage(accentColor+"---------Objective---------");
-            player.sendMessage(ChatColor.GREEN+objective);
-            player.sendMessage(accentColor+"---------------------------");
-        }
+
+        GameManager.playerScores.keySet().forEach((uuid -> {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null){
+                //send chat message
+                player.sendMessage(accentColor+"---------Objective---------");
+                player.sendMessage(ChatColor.GREEN+objective);
+                player.sendMessage(accentColor+"---------------------------");
+
+                //send title
+                player.sendTitle(ChatColor.GREEN + "New Objective", accentColor+objective, 10, 40, 10);
+            }
+        }));
     }
 
-    public void announceWinners(List<Map.Entry<UUID, Integer>> winners){
+    public void sendRoundWinner(Player player){
+        announcePlayers(ChatColor.GOLD +player.getDisplayName()+ accentColor +" completed their Task.");
+    }
+
+    public void announceWinners(Map.Entry<UUID, Integer> winnerEntry){
         StringBuilder winnersList = new StringBuilder();
         winnersList.append(ChatColor.GREEN).append("Winners:\n");
-        for (Map.Entry<UUID, Integer> entry : winners){
-            Player winner = Bukkit.getPlayer(entry.getKey());
-            int score = entry.getValue();
+            Player winner = Bukkit.getPlayer(winnerEntry.getKey());
+            int score = winnerEntry.getValue();
             if (winner != null){
                 winnersList
                         .append(ChatColor.GOLD)
@@ -60,7 +70,7 @@ public class ChatMsgManager {
                         .append(score)
                         .append("\n");
             }
-        }
+
         announceAll(winnersList.toString());
     }
 }

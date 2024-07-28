@@ -1,11 +1,11 @@
 package prod.brainiac.olympixel.commands.olympixelCommand;
 
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import prod.brainiac.olympixel.listeners.PlayerMoveListener;
 import prod.brainiac.olympixel.utils.ChatMsgManager;
 import prod.brainiac.olympixel.utils.GameManager;
 
@@ -55,6 +55,8 @@ public class StartSubCommand extends SubCommand {
         new BukkitRunnable() {
 
             int remSecs = 4;
+            private boolean firstRun = true;
+            private PlayerMoveListener playerMoveListener;
 
             @Override
             public void run() {
@@ -62,27 +64,33 @@ public class StartSubCommand extends SubCommand {
                     this.cancel();
                 }
 
+                if (firstRun){
+                    playerMoveListener = new PlayerMoveListener();
+                    Bukkit.getServer().getPluginManager().registerEvents(playerMoveListener, plugin);
+                    firstRun = false;
+                }
+
                 if (remSecs==0){
                     gameManager = new GameManager(plugin,chatMsgManager);
                     gameManager.startGame();
+                    HandlerList.unregisterAll(playerMoveListener);
                 }
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
 
                     if (remSecs==0){
-                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.GREEN+"Game Started"));
+                        player.sendTitle("Olympixel", "Game Started", 0,30,0);
                         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL,1F,1F);
 
 
                     }else{
-                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.RED+"Game Starting in: "+remSecs));
+                        player.sendTitle(String.valueOf(remSecs), null, 0, 18, 0);
                         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL,1F,0.1F);
+
                     }
                 }
                 remSecs--;
             }
         }.runTaskTimer(plugin, 0L, 20L);
-
-
     }
 }

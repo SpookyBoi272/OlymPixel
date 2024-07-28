@@ -1,6 +1,7 @@
 package prod.brainiac.olympixel.utils;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,8 +12,10 @@ import java.util.*;
 public class GameManager {
     private final JavaPlugin plugin;
     private static Boolean gameRunning = false;
-    private final ArrayList<Task> availableTasks = new ArrayList<>();
     private final ChatMsgManager chatMsgManager;
+
+    //played tasks are removed from startNextRound function {reset if empty}
+    private final ArrayList<Task> availableTasks = new ArrayList<>();
 
     private Task currentTask;
     protected static final Map<UUID, Integer> playerScores = new HashMap<>();
@@ -22,51 +25,61 @@ public class GameManager {
     public GameManager(JavaPlugin plugin, ChatMsgManager chatMsgManager) {
         this.chatMsgManager = chatMsgManager;
         this.plugin = plugin;
-        availableTasks.addAll(Arrays.asList(
-                new ArmorTask(this),
-                new CraftingTableTask(this),
-                new CryingObiTask(this),
-                new DiamondPickaxeTask(this),
-                new DrinkMilkTask(this),
-                new DyeTask(this),
-                new FlowerTask(this),
-                new KillMobTask(this),
-                new PortalTask(this),
-                new PotionEffectTask(this),
-                new StandOnBlockTask(this)
-        ));
-
+        rstAvailableTasks();
     }
 
+    //used to start a new game
     public void startGame() {
         gameRunning = true;
         chatMsgManager.announceAll("Game Stared");
         this.scoreManager =  new ScoreManager();
         currentRound++;
+
+        //pick a random task from available tasks
         Random random = new Random();
         int randomTaskID = random.nextInt(availableTasks.size());
         currentTask = availableTasks.get(randomTaskID);
         availableTasks.remove(currentTask);
+
+        //initial scores set
         for (Player player : Bukkit.getOnlinePlayers()){
             playerScores.put(player.getUniqueId(), 0);
         }
         registerTask(currentTask,plugin);
+
+        //announce objective
         chatMsgManager.sendObjective(currentTask.getObjective());
     }
 
+    //starts next round of currently running game
+    //automatically triggered when prev round ends
     public void startNextRound(Player currentRoundWinner) {
         unregisterTask(currentTask);
         chatMsgManager.msgPlayer(currentRoundWinner, currentTask.getWinMsg());
         addScore(currentRoundWinner);
         scoreManager.updateScores(playerScores);
-        chatMsgManager.announcePlayers(currentRoundWinner.getDisplayName() + " completed their Task.");
+        chatMsgManager.sendRoundWinner(currentRoundWinner);
+        for (UUID uuid : playerScores.keySet()){
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null){
+                player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 0.7F, 1F);
+            }
+        }
         currentRound++;
 
+        //if a player has score of three then end game
         if (playerScores.containsValue(3)) {
             endGame();
         } else {
             chatMsgManager.announcePlayers("Starting Round " + currentRound);
+
+            //reset the available task if empty
             Random random = new Random();
+            if (availableTasks.isEmpty()){
+                rstAvailableTasks();
+            }
+
+            //get a random task for next round
             int randomTaskID = random.nextInt(availableTasks.size());
             currentTask = availableTasks.get(randomTaskID);
             registerTask(currentTask,plugin);
@@ -74,40 +87,40 @@ public class GameManager {
         }
     }
 
+    //ends currently running game
     private void endGame() {
+
+        //reset scoreboards
         scoreManager.removeAll();
-        List<Map.Entry<UUID, Integer>> winners = calculateWinner();
+
+        //calc and display winners
+        Map.Entry<UUID, Integer> winner = calculateWinner();
 
         chatMsgManager.announceAll("The Game has ended.");
-        if (winners != null) {
-            chatMsgManager.announceWinners(winners);
+        if (winner != null) {
+            chatMsgManager.announceWinners(winner);
         }
 
         gameRunning = false;
     }
 
-    private List<Map.Entry<UUID, Integer>> calculateWinner() {
+    private Map.Entry<UUID, Integer> calculateWinner() {
 
         if (playerScores.isEmpty()) {
             return null;
         }
 
-        List<Map.Entry<UUID, Integer>> winners = new ArrayList<>();
+        Map.Entry<UUID, Integer> winner = null;
         int maxScore = Integer.MIN_VALUE;
 
         for (Map.Entry<UUID, Integer> entry : playerScores.entrySet()) {
-
             int score = entry.getValue();
             if (score > maxScore) {
-
-                winners.clear();
-                winners.add(entry);
+                winner = entry;
                 maxScore = entry.getValue();
-            } else if (score == maxScore) {
-                winners.add(entry);
             }
         }
-        return winners;
+        return winner;
     }
 
     private void addScore(Player player) {
@@ -136,5 +149,22 @@ public class GameManager {
         if (playerScores.isEmpty()){
             endGame();
         }
+    }
+
+    private void rstAvailableTasks(){
+        availableTasks.clear();
+        availableTasks.addAll(Arrays.asList(
+                new ArmorTask(this),
+                new CraftingTableTask(this),
+                new CryingObiTask(this),
+                new DiamondPickaxeTask(this),
+                new DrinkMilkTask(this),
+                new DyeTask(this),
+                new FlowerTask(this),
+                new KillMobTask(this),
+                new PortalTask(this),
+                new PotionEffectTask(this),
+                new StandOnBlockTask(this)
+        ));
     }
 }
