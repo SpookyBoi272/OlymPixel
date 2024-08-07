@@ -5,7 +5,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.tasks.*;
+import prod.brainiac.olympixel.tasks.Task;
+import prod.brainiac.olympixel.tasks.TradeTask;
 
 import java.util.*;
 
@@ -32,7 +33,7 @@ public class GameManager {
     public void startGame() {
         gameRunning = true;
         chatMsgManager.announceAll("Game Stared");
-        this.scoreManager =  new ScoreManager();
+        this.scoreManager = new ScoreManager();
         currentRound++;
 
         //pick a random task from available tasks
@@ -42,10 +43,11 @@ public class GameManager {
         availableTasks.remove(currentTask);
 
         //initial scores set
-        for (Player player : Bukkit.getOnlinePlayers()){
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.getInventory().clear();
             playerScores.put(player.getUniqueId(), 0);
         }
-        registerTask(currentTask,plugin);
+        registerTask(currentTask, plugin);
 
         //announce objective
         chatMsgManager.sendObjective(currentTask.getObjective());
@@ -59,9 +61,9 @@ public class GameManager {
         addScore(currentRoundWinner);
         scoreManager.updateScores(playerScores);
         chatMsgManager.sendRoundWinner(currentRoundWinner);
-        for (UUID uuid : playerScores.keySet()){
+        for (UUID uuid : playerScores.keySet()) {
             Player player = Bukkit.getPlayer(uuid);
-            if (player != null){
+            if (player != null) {
                 player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 0.7F, 1F);
             }
         }
@@ -75,14 +77,14 @@ public class GameManager {
 
             //reset the available task if empty
             Random random = new Random();
-            if (availableTasks.isEmpty()){
+            if (availableTasks.isEmpty()) {
                 rstAvailableTasks();
             }
 
             //get a random task for next round
             int randomTaskID = random.nextInt(availableTasks.size());
             currentTask = availableTasks.get(randomTaskID);
-            registerTask(currentTask,plugin);
+            registerTask(currentTask, plugin);
             chatMsgManager.sendObjective(currentTask.getObjective());
         }
     }
@@ -136,7 +138,7 @@ public class GameManager {
         HandlerList.unregisterAll(task.getListener());
     }
 
-    public static Boolean isGameRunning(){
+    public static Boolean isGameRunning() {
         return gameRunning;
     }
 
@@ -144,27 +146,28 @@ public class GameManager {
         return playerScores.containsKey(player.getUniqueId());
     }
 
-    public void dcPlayer(Player player){
+    public void dcPlayer(Player player) {
         playerScores.remove(player.getUniqueId());
-        if (playerScores.isEmpty()){
+        if (playerScores.isEmpty()) {
             endGame();
         }
     }
 
-    private void rstAvailableTasks(){
+    private void rstAvailableTasks() {
         availableTasks.clear();
-        availableTasks.addAll(Arrays.asList(
-                new ArmorTask(this),
-                new CraftingTableTask(this),
-                new CryingObiTask(this),
-                new DiamondPickaxeTask(this),
-                new DrinkMilkTask(this),
-                new DyeTask(this),
-                new FlowerTask(this),
-                new KillMobTask(this),
-                new PortalTask(this),
-                new PotionEffectTask(this),
-                new StandOnBlockTask(this)
+        availableTasks.addAll(Collections.singletonList(
+                new TradeTask(this)
+//                new ArmorTask(this),
+//                new CraftingTableTask(this),
+//                new CryingObiTask(this),
+//                new DiamondPickaxeTask(this),
+//                new DrinkMilkTask(this),
+//                new DyeTask(this),
+//                new FlowerTask(this),
+//                new KillMobTask(this),
+//                new PortalTask(this),
+//                new PotionEffectTask(this),
+//                new StandOnBlockTask(this)
         ));
     }
 }

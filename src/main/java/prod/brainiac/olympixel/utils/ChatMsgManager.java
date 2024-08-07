@@ -2,6 +2,7 @@ package prod.brainiac.olympixel.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
@@ -57,20 +58,14 @@ public class ChatMsgManager {
     }
 
     public void announceWinners(Map.Entry<UUID, Integer> winnerEntry){
-        StringBuilder winnersList = new StringBuilder();
-        winnersList.append(ChatColor.GREEN).append("Winners:\n");
-            Player winner = Bukkit.getPlayer(winnerEntry.getKey());
-            int score = winnerEntry.getValue();
-            if (winner != null){
-                winnersList
-                        .append(ChatColor.GOLD)
-                        .append("1.")
-                        .append(winner.getDisplayName())
-                        .append("   ")
-                        .append(score)
-                        .append("\n");
+        Player winner = Bukkit.getPlayer(winnerEntry.getKey());
+        int score = winnerEntry.getValue();
+        if (winner != null){
+            announceAll(ChatColor.GOLD+winner.getDisplayName()+ accentColor +" won the game");
+            for (Player player : Bukkit.getOnlinePlayers()){
+                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+                player.sendTitle(prefixColor+"Winner", ChatColor.GOLD+winner.getDisplayName() + "\n Score: "+score, 10, 40, 20);
             }
-
-        announceAll(winnersList.toString());
+        }
     }
 }
