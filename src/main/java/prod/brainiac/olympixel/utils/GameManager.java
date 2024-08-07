@@ -5,8 +5,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.tasks.Task;
-import prod.brainiac.olympixel.tasks.TradeTask;
+import prod.brainiac.olympixel.tasks.*;
 
 import java.util.*;
 
@@ -155,19 +154,19 @@ public class GameManager {
 
     private void rstAvailableTasks() {
         availableTasks.clear();
-        availableTasks.addAll(Collections.singletonList(
-                new TradeTask(this)
-//                new ArmorTask(this),
-//                new CraftingTableTask(this),
-//                new CryingObiTask(this),
-//                new DiamondPickaxeTask(this),
-//                new DrinkMilkTask(this),
-//                new DyeTask(this),
-//                new FlowerTask(this),
-//                new KillMobTask(this),
-//                new PortalTask(this),
-//                new PotionEffectTask(this),
-//                new StandOnBlockTask(this)
+        availableTasks.addAll(Arrays.asList(
+                new TradeTask(this),
+                new ArmorTask(this),
+                new CraftingTableTask(this),
+                new CryingObiTask(this),
+                new DiamondPickaxeTask(this),
+                new DrinkMilkTask(this),
+                new DyeTask(this),
+                new FlowerTask(this),
+                new KillMobTask(this),
+                new PortalTask(this),
+                new PotionEffectTask(this),
+                new StandOnBlockTask(this)
         ));
     }
 }
