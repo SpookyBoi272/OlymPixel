@@ -65,18 +65,21 @@ public class GameManager {
         addScore(currentRoundWinner);
         scoreManager.updateScores(playerScores);
         chatMsgManager.sendRoundWinner(currentRoundWinner);
-        for (UUID uuid : playerScores.keySet()) {
-            Player player = Bukkit.getPlayer(uuid);
-            if (player != null) {
-                player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 0.7F, 1F);
-            }
-        }
-        currentRound++;
+
 
         //if a player has score of three then end game
         if (playerScores.containsValue(3)) {
             endGame();
         } else {
+
+            //else start next round
+            for (UUID uuid : playerScores.keySet()) {
+                Player player = Bukkit.getPlayer(uuid);
+                if (player != null) {
+                    player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 0.7F, 1F);
+                }
+            }
+            currentRound++;
             chatMsgManager.announcePlayers("Starting Round " + currentRound);
 
             Random random = new Random();
