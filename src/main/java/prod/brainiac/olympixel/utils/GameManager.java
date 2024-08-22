@@ -5,12 +5,13 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
+import prod.brainiac.olympixel.Olympixel;
 import prod.brainiac.olympixel.tasks.*;
 
 import java.util.*;
 
 public class GameManager {
-    private final JavaPlugin plugin;
+    private final Olympixel plugin;
     private static Boolean gameRunning = false;
     private final ChatMsgManager chatMsgManager;
 
@@ -22,7 +23,7 @@ public class GameManager {
     private int currentRound = 0;
     private ScoreManager scoreManager;
 
-    public GameManager(JavaPlugin plugin, ChatMsgManager chatMsgManager) {
+    public GameManager(Olympixel plugin, ChatMsgManager chatMsgManager) {
         this.chatMsgManager = chatMsgManager;
         this.plugin = plugin;
         rstAvailableTasks();
@@ -39,7 +40,11 @@ public class GameManager {
         Random random = new Random();
         int randomTaskID = random.nextInt(availableTasks.size());
         currentTask = availableTasks.get(randomTaskID);
-        availableTasks.remove(currentTask);
+
+        //do not remove if repeat task is true
+        if (!plugin.configHook.repeatTask()) {
+            availableTasks.remove(currentTask);
+        }
 
         //initial scores set
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -74,8 +79,8 @@ public class GameManager {
         } else {
             chatMsgManager.announcePlayers("Starting Round " + currentRound);
 
-            //reset the available task if empty
             Random random = new Random();
+            //reset the available task if empty
             if (availableTasks.isEmpty()) {
                 rstAvailableTasks();
             }
@@ -83,6 +88,12 @@ public class GameManager {
             //get a random task for next round
             int randomTaskID = random.nextInt(availableTasks.size());
             currentTask = availableTasks.get(randomTaskID);
+
+            //do not remove if repeat task is true
+            if (!plugin.configHook.repeatTask()) {
+                availableTasks.remove(currentTask);
+            }
+
             registerTask(currentTask, plugin);
             chatMsgManager.sendObjective(currentTask.getObjective());
         }

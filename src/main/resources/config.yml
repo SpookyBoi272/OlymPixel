@@ -1,0 +1,7 @@
+Game:
+  # The countdown time before the game starts, in seconds
+  countdown: 4
+
+  # Boolean to determine whether tasks should repeat during same match
+  # Repeats regardless if unique tasks are no longer available
+  repeatTasks: false

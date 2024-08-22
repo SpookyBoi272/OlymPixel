@@ -1,10 +1,11 @@
 package prod.brainiac.olympixel.commands.olympixelCommand;
 
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import prod.brainiac.olympixel.Olympixel;
 import prod.brainiac.olympixel.listeners.PlayerMoveListener;
 import prod.brainiac.olympixel.utils.ChatMsgManager;
 import prod.brainiac.olympixel.utils.GameManager;
@@ -13,14 +14,14 @@ public class StartSubCommand extends SubCommand {
 
     private static GameManager gameManager;
     private final ChatMsgManager chatMsgManager;
-    private final JavaPlugin plugin;
+    private final Olympixel plugin;
 
-    public StartSubCommand(ChatMsgManager chatMsgManager, JavaPlugin plugin){
+    public StartSubCommand(ChatMsgManager chatMsgManager, Olympixel plugin) {
         this.chatMsgManager = chatMsgManager;
         this.plugin = plugin;
     }
 
-    public static GameManager getGameManager(){
+    public static GameManager getGameManager() {
         return gameManager;
     }
 
@@ -47,45 +48,45 @@ public class StartSubCommand extends SubCommand {
     @Override
     public void perform(Player player, String[] args) {
 
-        if (GameManager.isGameRunning()){
+        if (GameManager.isGameRunning()) {
             chatMsgManager.msgPlayer(player, "Running Game has not ended yet");
             return;
         }
 
         new BukkitRunnable() {
 
-            int remSecs = 4;
+            int remSecs = plugin.configHook.getCountdownSecs();
             private boolean firstRun = true;
             private PlayerMoveListener playerMoveListener;
 
             @Override
             public void run() {
-                if (remSecs<1){
+                if (remSecs < 1) {
                     this.cancel();
                 }
 
-                if (firstRun){
+                if (firstRun) {
                     playerMoveListener = new PlayerMoveListener();
                     Bukkit.getServer().getPluginManager().registerEvents(playerMoveListener, plugin);
                     firstRun = false;
                 }
 
-                if (remSecs==0){
-                    gameManager = new GameManager(plugin,chatMsgManager);
+                if (remSecs == 0) {
+                    gameManager = new GameManager(plugin, chatMsgManager);
                     gameManager.startGame();
                     HandlerList.unregisterAll(playerMoveListener);
                 }
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
 
-                    if (remSecs==0){
-                        player.sendTitle("Olympixel", "Game Started", 0,30,0);
-                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL,1F,1F);
+                    if (remSecs == 0) {
+                        player.sendTitle("Olympixel", "Game Started", 0, 30, 0);
+                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1F, 1F);
 
 
-                    }else{
+                    } else {
                         player.sendTitle(String.valueOf(remSecs), null, 0, 18, 0);
-                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL,1F,0.1F);
+                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1F, 0.1F);
 
                     }
                 }
