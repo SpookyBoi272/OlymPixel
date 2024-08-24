@@ -119,6 +119,12 @@ public class GameManager {
         gameRunning = false;
     }
 
+    public void stopGame() {
+        unregisterTask(currentTask);
+        scoreManager.removeAll();
+        chatMsgManager.announceAll("Running game has been stopped by an admin");
+    }
+
     private Map.Entry<UUID, Integer> calculateWinner() {
 
         if (playerScores.isEmpty()) {
