@@ -7,3 +7,12 @@ commands:
   Olympixel:
     description: "Used to run Olympixel mini game commands."
     usage: "/olympixel <SubCommand>"
+    aliases: [ opx, olp ]
+
+permissions:
+  olympixel.admin:
+    description: "Allows access to all Olympixel commands."
+    default: op
+  olympixel.player:
+    description: "Allows access to player commands."
+    default: true

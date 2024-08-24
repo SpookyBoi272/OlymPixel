@@ -27,7 +27,7 @@ public class OlympixelManager implements CommandExecutor {
                 for (int i = 0; i < getSubcommands().size(); i++) {
                     if (args[0].equalsIgnoreCase(getSubcommands().get(i).getName())) {
 
-                        if (getSubcommands().get(i).requiresOP() && !sender.isOp()) {
+                        if (getSubcommands().get(i).requiresOP() && !sender.hasPermission("olympixel.admin")) {
                             sender.sendMessage("You need to be an operator to perform this command.");
                             return true;
                         }
