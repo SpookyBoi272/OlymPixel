@@ -67,9 +67,7 @@ public class StartSubCommand extends SubCommand {
                 }
 
                 if (firstRun) {
-                    Bukkit.getOnlinePlayers().forEach(player -> {
-                        player.setInvulnerable(true);
-                    });
+                    Bukkit.getOnlinePlayers().forEach(player -> player.setInvulnerable(true));
                     playerMoveListener = new PlayerMoveListener();
                     Bukkit.getServer().getPluginManager().registerEvents(playerMoveListener, plugin);
                     firstRun = false;
@@ -79,9 +77,7 @@ public class StartSubCommand extends SubCommand {
                     gameManager = new GameManager(plugin, chatMsgManager);
                     gameManager.startGame();
                     HandlerList.unregisterAll(playerMoveListener);
-                    Bukkit.getOnlinePlayers().forEach(player -> {
-                        player.setInvulnerable(false);
-                    });
+                    Bukkit.getOnlinePlayers().forEach(player -> player.setInvulnerable(false));
                 }
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
