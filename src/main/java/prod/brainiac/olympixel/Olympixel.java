@@ -4,7 +4,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import prod.brainiac.olympixel.commands.olympixelCommand.OlympixelManager;
 import prod.brainiac.olympixel.commands.olympixelCommand.OlympixelTabComp;
-import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.events.ArmorListener;
 import prod.brainiac.olympixel.events.DispenserArmorListener;
 import prod.brainiac.olympixel.listeners.PlayerJoinListener;
@@ -26,7 +25,7 @@ public final class Olympixel extends JavaPlugin {
         Objects.requireNonNull(getCommand("olympixel")).setExecutor(new OlympixelManager(chatMsgManager, this));
         Objects.requireNonNull(getCommand("olympixel")).setTabCompleter(new OlympixelTabComp());
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(teamManager, this), this);
-        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(teamManager, this, StartSubCommand.getGameManager()), this);
+        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(teamManager, this), this);
         getServer().getPluginManager().registerEvents(new DispenserArmorListener(), this);
         getServer().getPluginManager().registerEvents(new ArmorListener(), this);
         teamManager.init();

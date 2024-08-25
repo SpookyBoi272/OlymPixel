@@ -6,26 +6,25 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 import prod.brainiac.olympixel.utils.TeamManager;
 
 public class PlayerLeaveListener implements Listener {
     private final TeamManager teamManager;
     private final JavaPlugin plugin;
-    private final GameManager gameManager;
 
-    public PlayerLeaveListener(TeamManager teamManager, JavaPlugin plugin, GameManager manager) {
+    public PlayerLeaveListener(TeamManager teamManager, JavaPlugin plugin) {
         this.teamManager = teamManager;
         this.plugin = plugin;
-        this.gameManager = manager;
     }
 
     @EventHandler
-    public void onPlayerLeave(PlayerQuitEvent event){
+    public void onPlayerLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        if (GameManager.isPlayerIG(player)){
-            gameManager.dcPlayer(player);
+        if (GameManager.isPlayerIG(player) && GameManager.isGameRunning()) {
+            StartSubCommand.getGameManager().dcPlayer(player);
         }
 
         teamManager.removePlayerFromTeam(player);

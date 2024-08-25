@@ -19,4 +19,7 @@ public class ConfigHook {
         return config.getBoolean("Game.repeatTasks");
     }
 
+    public void setCountdownSecs(int val) {
+        config.set("Game.countdown", val);
+    }
 }

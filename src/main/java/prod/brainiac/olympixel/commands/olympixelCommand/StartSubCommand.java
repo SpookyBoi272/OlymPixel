@@ -1,6 +1,7 @@
 package prod.brainiac.olympixel.commands.olympixelCommand;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -66,6 +67,9 @@ public class StartSubCommand extends SubCommand {
                 }
 
                 if (firstRun) {
+                    Bukkit.getOnlinePlayers().forEach(player -> {
+                        player.setInvulnerable(true);
+                    });
                     playerMoveListener = new PlayerMoveListener();
                     Bukkit.getServer().getPluginManager().registerEvents(playerMoveListener, plugin);
                     firstRun = false;
@@ -75,17 +79,20 @@ public class StartSubCommand extends SubCommand {
                     gameManager = new GameManager(plugin, chatMsgManager);
                     gameManager.startGame();
                     HandlerList.unregisterAll(playerMoveListener);
+                    Bukkit.getOnlinePlayers().forEach(player -> {
+                        player.setInvulnerable(false);
+                    });
                 }
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
 
                     if (remSecs == 0) {
-                        player.sendTitle("Olympixel", "Game Started", 0, 30, 0);
+                        player.sendTitle(ChatColor.DARK_PURPLE + "Olympixel", ChatColor.LIGHT_PURPLE + "Game Started", 0, 30, 0);
                         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1F, 1F);
 
 
                     } else {
-                        player.sendTitle(String.valueOf(remSecs), null, 0, 18, 0);
+                        player.sendTitle(ChatColor.DARK_PURPLE + String.valueOf(remSecs), ChatColor.LIGHT_PURPLE + "Game Starting", 0, 18, 0);
                         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1F, 0.1F);
 
                     }
