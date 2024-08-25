@@ -34,13 +34,12 @@ public class SetCountSubCommand extends SubCommand {
 
     @Override
     public void perform(Player player, String[] args) {
-        if (args.length < 1) {
-            player.sendMessage("Invalid usage of command");
-            return;
-        }
 
-        if (args.length == 1) {
-            plugin.configHook.setCountdownSecs(args[0].charAt(0));
+        if (Character.isDigit(args[0].charAt(0)) && args.length == 2) {
+            int secs = args[0].charAt(0);
+            plugin.configHook.setCountdownSecs(secs);
+        } else {
+            player.sendMessage("Invalid usage of command");
         }
     }
 }
