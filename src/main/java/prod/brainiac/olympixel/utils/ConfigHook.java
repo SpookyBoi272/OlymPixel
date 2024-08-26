@@ -5,9 +5,11 @@ import prod.brainiac.olympixel.Olympixel;
 
 public class ConfigHook {
     private final FileConfiguration config;
+    private final Olympixel plugin;
 
 
     public ConfigHook(Olympixel plugin) {
+        this.plugin = plugin;
         config = plugin.getConfig();
     }
 
@@ -21,5 +23,7 @@ public class ConfigHook {
 
     public void setCountdownSecs(int val) {
         config.set("Game.countdown", val);
+        plugin.saveConfig();
+        plugin.reloadConfig();
     }
 }

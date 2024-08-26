@@ -35,9 +35,11 @@ public class SetCountSubCommand extends SubCommand {
     @Override
     public void perform(Player player, String[] args) {
 
-        if (Character.isDigit(args[0].charAt(0)) && args.length == 2) {
-            int secs = args[0].charAt(0);
+        char wut = args[1].charAt(0);
+        if (Character.isDigit(wut) && args.length == 2) {
+            int secs = Character.getNumericValue(wut);
             plugin.configHook.setCountdownSecs(secs);
+            player.sendMessage("Set successfully: " + secs);
         } else {
             player.sendMessage("Invalid usage of command");
         }

@@ -15,6 +15,7 @@ public class OlympixelTabComp implements TabCompleter {
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
         stringList.add("start");
         stringList.add("stop");
+        stringList.add("setCD");
         return stringList;
     }
 }
