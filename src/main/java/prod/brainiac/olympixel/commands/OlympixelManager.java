@@ -1,4 +1,4 @@
-package prod.brainiac.olympixel.commands.olympixelCommand;
+package prod.brainiac.olympixel.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.commands.olympixelCommand.StartSubCommand;
+import prod.brainiac.olympixel.commands.StartSubCommand;
 import prod.brainiac.olympixel.utils.GameManager;
 import prod.brainiac.olympixel.utils.TeamManager;
 

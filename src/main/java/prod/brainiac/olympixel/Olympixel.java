@@ -2,8 +2,8 @@ package prod.brainiac.olympixel;
 
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
-import prod.brainiac.olympixel.commands.olympixelCommand.OlympixelManager;
-import prod.brainiac.olympixel.commands.olympixelCommand.OlympixelTabComp;
+import prod.brainiac.olympixel.commands.OlympixelManager;
+import prod.brainiac.olympixel.commands.OlympixelTabComp;
 import prod.brainiac.olympixel.events.ArmorListener;
 import prod.brainiac.olympixel.events.DispenserArmorListener;
 import prod.brainiac.olympixel.listeners.PlayerJoinListener;
