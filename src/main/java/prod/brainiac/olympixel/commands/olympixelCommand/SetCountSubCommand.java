@@ -2,13 +2,16 @@ package prod.brainiac.olympixel.commands.olympixelCommand;
 
 import org.bukkit.entity.Player;
 import prod.brainiac.olympixel.Olympixel;
+import prod.brainiac.olympixel.utils.ChatMsgManager;
 
 public class SetCountSubCommand extends SubCommand {
 
     private final Olympixel plugin;
+    private final ChatMsgManager chatMsgManager;
 
-    public SetCountSubCommand(Olympixel plugin) {
+    public SetCountSubCommand(Olympixel plugin, ChatMsgManager chatMsgManager) {
         this.plugin = plugin;
+        this.chatMsgManager = chatMsgManager;
     }
 
 
@@ -19,7 +22,7 @@ public class SetCountSubCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Set countdown before the game starts";
+        return "Set countdown (In Seconds) before the game starts";
     }
 
     @Override
@@ -35,13 +38,19 @@ public class SetCountSubCommand extends SubCommand {
     @Override
     public void perform(Player player, String[] args) {
 
-        char wut = args[1].charAt(0);
-        if (Character.isDigit(wut) && args.length == 2) {
-            int secs = Character.getNumericValue(wut);
-            plugin.configHook.setCountdownSecs(secs);
-            player.sendMessage("Set successfully: " + secs);
-        } else {
-            player.sendMessage("Invalid usage of command");
+        if (args.length != 2) {
+            chatMsgManager.msgPlayer(player, "Invalid usage of command");
+            return;
         }
+
+        String str = args[1];
+        try {
+            int secs = Integer.parseInt(str);
+            plugin.configHook.setCountdownSecs(secs);
+            chatMsgManager.msgPlayer(player, "Successfully set countdown to " + secs + " seconds");
+        } catch (NumberFormatException e) {
+            chatMsgManager.msgPlayer(player, "Invalid usage of command");
+        }
+
     }
 }

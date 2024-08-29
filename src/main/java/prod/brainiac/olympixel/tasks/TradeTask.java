@@ -88,6 +88,6 @@ public class TradeTask extends Task {
 
     @Override
     public Listener getListener() {
-        return null;
+        return listener;
     }
 }

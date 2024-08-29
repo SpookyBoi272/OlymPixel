@@ -83,7 +83,7 @@ public class StartSubCommand extends SubCommand {
                 for (Player player : Bukkit.getOnlinePlayers()) {
 
                     if (remSecs == 0) {
-                        player.sendTitle(ChatColor.DARK_PURPLE + "Olympixel", ChatColor.LIGHT_PURPLE + "Game Started", 0, 30, 0);
+//                        player.sendTitle(ChatColor.DARK_PURPLE + "Olympixel", ChatColor.LIGHT_PURPLE + "Game Started", 0, 30, 0);
                         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1F, 1F);
 
 

@@ -16,7 +16,7 @@ public class OlympixelManager implements CommandExecutor {
     public OlympixelManager(ChatMsgManager chatMsgManager, Olympixel plugin) {
         subCommands.add(new StartSubCommand(chatMsgManager, plugin));
         subCommands.add(new StopSubCommand(chatMsgManager));
-        subCommands.add(new SetCountSubCommand(plugin));
+        subCommands.add(new SetCountSubCommand(plugin, chatMsgManager));
     }
 
     @Override
