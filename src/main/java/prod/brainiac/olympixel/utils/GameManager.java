@@ -176,7 +176,7 @@ public class GameManager {
     private void rstAvailableTasks() {
         availableTasks.clear();
         availableTasks.addAll(Arrays.asList(
-//                new TradeTask(this),
+                new TradeTask(this),
                 new ArmorTask(this),
                 new CraftingTableTask(this),
                 new CryingObiTask(this),

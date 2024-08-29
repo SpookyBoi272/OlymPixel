@@ -16,6 +16,13 @@ public class OlympixelTabComp implements TabCompleter {
         stringList.add("start");
         stringList.add("stop");
         stringList.add("setCD");
-        return stringList;
+        if (strings.length == 1) {
+            return stringList;
+        }
+
+        if (strings.length == 2 || strings[1].equals("setCD")) {
+            return List.of("seconds");
+        }
+        return null;
     }
 }

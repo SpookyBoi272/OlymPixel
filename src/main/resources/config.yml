@@ -1,7 +1,12 @@
 Game:
   # The countdown time before the game starts, in seconds
+  # Default 3 seconds
   countdown: 4
 
   # Boolean to determine whether tasks should repeat during same match
   # Repeats regardless if unique tasks are no longer available
   repeatTasks: false
+
+  # Score one of the Player must achieve to win the game
+  # Default is 3
+  WinScore: 3
