@@ -22,7 +22,7 @@ public class ConfigHook {
     }
 
     public int getWinScore() {
-        return config.getInt("Game.WinScore");
+        return config.getInt("Game.winScore");
     }
 
     public void setCountdownSecs(int val) {
