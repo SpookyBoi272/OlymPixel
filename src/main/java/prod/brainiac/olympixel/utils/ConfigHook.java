@@ -21,6 +21,10 @@ public class ConfigHook {
         return config.getBoolean("Game.repeatTasks");
     }
 
+    public int getWinScore() {
+        return config.getInt("Game.WinScore");
+    }
+
     public void setCountdownSecs(int val) {
         config.set("Game.countdown", val);
         plugin.saveConfig();

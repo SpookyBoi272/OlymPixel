@@ -12,6 +12,7 @@ import java.util.*;
 
 public class GameManager {
     private final Olympixel plugin;
+    private final ConfigHook config;
     private static Boolean gameRunning = false;
     private final ChatMsgManager chatMsgManager;
 
@@ -26,6 +27,7 @@ public class GameManager {
     public GameManager(Olympixel plugin, ChatMsgManager chatMsgManager) {
         this.chatMsgManager = chatMsgManager;
         this.plugin = plugin;
+        this.config = plugin.configHook;
         rstAvailableTasks();
     }
 
@@ -68,7 +70,8 @@ public class GameManager {
 
 
         //if a player has score of three then end game
-        if (playerScores.containsValue(3)) {
+        int winScore = config.getWinScore();
+        if (playerScores.containsValue(winScore)) {
             endGame();
         } else {
 
