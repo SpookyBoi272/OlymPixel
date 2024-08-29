@@ -30,4 +30,10 @@ public class ConfigHook {
         plugin.saveConfig();
         plugin.reloadConfig();
     }
+
+    public void setWinScore(int val) {
+        config.set("Game.winScore", val);
+        plugin.saveConfig();
+        plugin.reloadConfig();
+    }
 }
